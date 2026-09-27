@@ -1,0 +1,294 @@
+/* Full Width The Header And Audio Controls Bar */
+header > .header__inner {
+  width: 100% !important;
+}
+
+/* General Optimization */
+.playControls > section > .playControls__wrapper {
+  width: 100% !important;
+  background: var(--background-surface-color);
+}
+
+.playControls__wrapper .playControls__elements .sc-button.sc-button-secondary {
+  background: none !important; /* remove unnecessary bg for secondary btns */
+}
+.playControls__wrapper .playbackSoundBadge__actions > * {
+  margin: none;
+  padding: var(--spacing-1x) 0px;
+}
+/* Added Custom Theme And Plugins Btn To Audio Bar */
+.playControls__themebtn {
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  & svg {
+    width: 80%;
+    height: auto;
+    fill: var(--primary-color);
+  }
+}
+.playControls__pluginbtn {
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  & svg {
+    width: 80%;
+    height: auto;
+    fill: var(--primary-color);
+  }
+}
+.playControls__lyricbtn {
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  & svg {
+    width: 80%;
+    height: auto;
+    fill: var(--primary-color);
+  }
+}
+.playControls__showcasebtn {
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  & svg {
+    width: 80%;
+    height: auto;
+    fill: var(--primary-color);
+  }
+}
+
+.header__app__custombtns {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 46px;
+  width: 46px;
+  & svg {
+    fill: var(--primary-color);
+  }
+}
+/* ! TODO: add hover effect that rely on var color */
+/* .header__app__custombtns:hover {background-color: #111;} */
+
+.header__navMenu li .header__navMenuItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-right: none;
+  & svg {
+    fill: var(--primary-color) !important;
+  }
+}
+
+/* Previous And Next Header Btn
+.header__appnextbtn {
+    background-color: var(--background-surface-color);
+    background-image: url("https://raw.githubusercontent.com/AlirezaKJ/BetterSoundCloud/refs/heads/before0.6/lib/assets/sharp_arrow_forward_ios_white_48dp.png");
+}
+.header__apppreviousbtn {
+    background-color: var(--background-surface-color);
+    background-image: url("https://raw.githubusercontent.com/AlirezaKJ/BetterSoundCloud/refs/heads/before0.6/lib/assets/sharp_arrow_back_ios_white_48dp.png");
+} */
+/* Hide All Ads, Announcement Banners, and Promo Cards */
+/* Screen 1: Player Audio Ad Companion Card / Ad Popup */
+.audibleAd,
+.audibleAdContainer,
+.audibleAd__container,
+.audibleAd__header,
+.audibleAd__artwork,
+.audibleAd__content,
+.audibleAd__dismiss,
+.audibleAd__info,
+.playControls__companion,
+.playControls__companionWrapper,
+.playControls__ad,
+.visualSoundAd,
+.visualAd,
+.adNotice,
+.adPlaceholder,
+.commercialAd,
+.ad_overlay,
+.genericAd,
+.toastAd,
+div[class*="audibleAd"],
+div[class*="playControls__companion"],
+div[class*="visualSoundAd"],
+div[class*="ad_overlay"],
+div[class*="adNotice"],
+div[class*="adBox"],
+div[class*="adContainer"],
+div[class*="ad-container"],
+div[class*="adWrapper"],
+div[class*="ad-wrapper"],
+div[class*="adSlot"],
+div[class*="ad-slot"],
+div[class*="commercialAd"],
+div[data-test-id*="ad"],
+div[data-testid*="ad"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  max-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  overflow: hidden !important;
+  position: absolute !important;
+  left: -9999px !important;
+  top: -9999px !important;
+  z-index: -9999 !important;
+}
+
+/* Screen 2: Top Header Announcement & Creator Promo Banners */
+.announcementBanner,
+.announcement,
+.announcements,
+.announcement__content,
+.announcementBar,
+.announcementBar__wrapper,
+.l-product-banners,
+.l-announcement,
+.l-announcements,
+.header__banner,
+.header__creatorUpsell,
+.header__upsellWrapper,
+.header__upsell,
+.creatorSubscriptionsButton,
+.topBanner,
+.topNotification,
+.top-banner,
+.top_banner,
+.upsellBanner,
+.upsell-banner,
+.creatorBar,
+div[class*="announcement"],
+div[class*="announcementBar"],
+div[class*="announcementBanner"],
+div[class*="topBanner"],
+div[class*="topNotification"],
+div[class*="header__banner"],
+div[class*="creatorBanner"],
+div[class*="upsellBanner"],
+div[class*="productBanner"],
+.banner.m-warning,
+.banner.m-promotion,
+.banner.m-announcement {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  max-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  overflow: hidden !important;
+}
+
+/* Screen 3: "GO MOBILE" & Download App Promo Boxes */
+.mobileApps,
+.mobileAppsModule,
+.mobileApps__dismiss,
+.mobileApps__button,
+.mobileApps__container,
+.appPromo,
+.app-promo,
+.go-mobile-banner,
+.promo-banner,
+.sidebarModule__mobile,
+.mobileBadge,
+.mobilePromo,
+div[class*="mobileApps"],
+div[class*="appPromo"],
+div[class*="goMobile"],
+div[class*="GoMobile"],
+div[class*="downloadApp"],
+div[class*="DownloadApp"],
+.sidebarModule:has(a[href*="apple.com"]),
+.sidebarModule:has(a[href*="itunes.apple.com"]),
+.sidebarModule:has(a[href*="play.google.com"]),
+.sidebarModule:has(a[href*="apps.apple.com"]),
+.sidebarModule:has(img[alt*="App Store"]),
+.sidebarModule:has(img[alt*="Google Play"]),
+.sidebarModule:has(a[href*="soundcloud.com/mobile"]) {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  max-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  overflow: hidden !important;
+}
+
+/* General: Sidebar Ads, Upsells, and Ad Iframes */
+.l-sidebar-ad,
+.sidebarAd,
+.sidebarAd--display,
+.sidebarAd__container,
+.stream__sidebar .sidebarModule:has(.g-upsell-container),
+.stream__sidebar .sidebarModule:has(a[href*="soundcloud-go"]),
+.stream__sidebar .sidebarModule:has(a[href*="checkout"]),
+.stream__sidebar .sidebarModule:has(a[href*="pro"]),
+.g-upsell-container,
+.listenUpsell,
+.ad-slot,
+.ad-container,
+iframe[src*="adzerk"],
+iframe[src*="doubleclick"],
+iframe[src*="googlesyndication"] {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  max-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+/* Custom Scrollbar */
+body::-webkit-scrollbar {
+  position: fixed !important;
+  width: 2px;
+}
+body::-webkit-scrollbar-track {
+  display: none;
+}
+body::-webkit-scrollbar-corner {
+  display: none;
+}
+body::-webkit-scrollbar-thumb {
+  background: #ff5500;
+}
+body::-webkit-scrollbar-thumb:hover {
+  background: #ff7700;
+}
+
+/* Fix replaced icon scrollbar bug for high zoom */
+.header__navWrapper .header__navMenu li a {
+  overflow: hidden;
+}

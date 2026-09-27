@@ -1,0 +1,1095 @@
+/* ==========================================================================
+   Bottom Local Audio Player Bar Styles
+   ========================================================================== */
+
+.bottom-player-bar {
+  height: 76px;
+  width: 100%;
+  background: rgba(8, 9, 14, 0.96);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+}
+
+/* Left Section: Track Info */
+.player-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 280px;
+  min-width: 220px;
+}
+
+.player-artwork {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.06);
+  object-fit: cover;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+}
+
+.player-track-details {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.player-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-highlight);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.player-artist {
+  font-size: 12px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 2px;
+}
+
+.player-source-tag {
+  display: inline-block;
+  font-size: 10px;
+  padding: 1px 6px;
+  border-radius: var(--radius-full);
+  margin-top: 3px;
+  width: fit-content;
+  font-weight: 500;
+}
+
+.player-source-tag.source-local {
+  background: var(--accent-alpha-15);
+  color: var(--accent-primary);
+  border: 1px solid var(--accent-alpha-40);
+}
+
+.player-source-tag.source-soundcloud {
+  background: rgba(255, 85, 0, 0.15);
+  color: var(--brand-soundcloud);
+  border: 1px solid rgba(255, 85, 0, 0.3);
+}
+
+.player-source-tag.source-yandex {
+  background: rgba(252, 63, 29, 0.15);
+  color: var(--brand-yandex-accent);
+  border: 1px solid rgba(252, 63, 29, 0.3);
+}
+
+.player-like-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-fast);
+}
+
+.player-like-btn:hover {
+  color: #f43f5e;
+}
+
+.player-like-btn.liked {
+  color: #f43f5e;
+}
+
+#player-download-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-fast);
+}
+
+#player-download-btn:hover {
+  color: var(--accent-primary);
+  background: var(--bg-hover);
+}
+
+#player-download-btn.downloading,
+#btn-sc-download.downloading svg {
+  color: var(--accent-primary);
+  animation: download-spin 1s linear infinite;
+}
+
+@keyframes download-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Center Section: Controls & Progress */
+.player-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  max-width: 580px;
+}
+
+.player-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.ctrl-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  transition: var(--transition-fast);
+}
+
+.ctrl-btn:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.ctrl-btn.active {
+  color: var(--accent-primary);
+}
+
+/* Queue / Equalizer buttons: same size, glass highlight while their popover is open */
+.player-tool-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+}
+
+.player-tool-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+.player-tool-btn:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.player-tool-btn.active {
+  color: var(--accent-primary);
+  background: var(--accent-alpha-15);
+  border-color: var(--accent-alpha-40);
+}
+
+.ctrl-btn.repeat-one {
+  color: var(--accent-primary);
+  position: relative;
+}
+
+.ctrl-btn.repeat-one::after {
+  content: "1";
+  position: absolute;
+  top: 1px;
+  right: 2px;
+  font-size: 9px;
+  font-weight: 800;
+  line-height: 1;
+  background: var(--accent-primary);
+  color: #000000;
+  border-radius: 50%;
+  width: 11px;
+  height: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ctrl-btn-play {
+  width: 40px;
+  height: 40px;
+  background: var(--text-highlight);
+  color: #000000;
+  box-shadow: 0 4px 14px rgba(255, 255, 255, 0.2);
+}
+
+.ctrl-btn-play:hover {
+  background: #ffffff;
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.35);
+  color: #000000;
+}
+
+.ctrl-btn-play svg {
+  width: 20px;
+  height: 20px;
+  margin-left: 2px;
+}
+
+.ctrl-btn-play.playing svg {
+  margin-left: 0;
+}
+
+/* Progress Slider */
+.player-progress-area {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.time-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+  min-width: 36px;
+  text-align: center;
+}
+
+.seek-bar-container {
+  flex: 1;
+  position: relative;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  touch-action: none;
+}
+
+.seek-bar-track {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-full);
+  position: relative;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.seek-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--text-highlight);
+  border-radius: var(--radius-full);
+  transition: width 0.1s linear;
+  pointer-events: none;
+}
+
+.seek-bar-container:hover .seek-bar-fill,
+.seek-bar-container.dragging .seek-bar-fill {
+  background: var(--accent-primary);
+}
+
+.seek-bar-container.dragging .seek-bar-fill {
+  transition: none !important;
+}
+
+.seek-bar-thumb {
+  position: absolute;
+  top: 50%;
+  left: 0%;
+  transform: translate(-50%, -50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ffffff;
+  opacity: 0;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  pointer-events: none;
+}
+
+.seek-bar-container:hover .seek-bar-thumb,
+.seek-bar-container.dragging .seek-bar-thumb {
+  opacity: 1;
+}
+
+.seek-bar-container.dragging .seek-bar-thumb {
+  transition: none !important;
+  transform: translate(-50%, -50%) scale(1.3);
+  box-shadow: 0 0 10px var(--accent-primary);
+}
+
+/* Right Section: Volume & Extras */
+.player-right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  width: 240px;
+  min-width: 180px;
+}
+
+.volume-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.vol-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+}
+
+.vol-btn:hover {
+  color: var(--text-primary);
+}
+
+.vol-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(to right, #ffffff 0%, #ffffff var(--vol-percent, 80%), rgba(255, 255, 255, 0.15) var(--vol-percent, 80%), rgba(255, 255, 255, 0.15) 100%);
+  border-radius: var(--radius-full);
+  outline: none;
+  cursor: pointer;
+  transition: background 0.05s ease;
+}
+
+.vol-slider:hover {
+  background: linear-gradient(to right, var(--accent-primary) 0%, var(--accent-primary) var(--vol-percent, 80%), rgba(255, 255, 255, 0.15) var(--vol-percent, 80%), rgba(255, 255, 255, 0.15) 100%);
+}
+
+.vol-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ffffff;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+.vol-slider:hover::-webkit-slider-thumb {
+  transform: scale(1.25);
+  background: #ffffff;
+  box-shadow: 0 0 8px var(--accent-primary);
+}
+
+/* ==========================================================================
+   Queue Drawer / Up Next Panel
+   Glass panel in the same visual language as the library and player bar:
+   translucent dark glass over the app background, theme accent for the
+   current track, rows styled like library track rows.
+   ========================================================================== */
+
+.queue-drawer {
+  position: absolute;
+  bottom: 88px;
+  right: 20px;
+  width: 390px;
+  max-width: calc(100vw - 40px);
+  height: 560px;
+  max-height: calc(100vh - 160px);
+  background: rgba(8, 8, 10, 0.78);
+  backdrop-filter: blur(28px) saturate(1.2);
+  -webkit-backdrop-filter: blur(28px) saturate(1.2);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  z-index: 500;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(16px) scale(0.97);
+  transform-origin: bottom right;
+  transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.queue-drawer.active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+}
+
+.queue-header {
+  padding: 16px 18px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.queue-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-highlight);
+}
+
+.queue-title-wrap svg {
+  color: var(--accent-primary);
+}
+
+.queue-title {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.queue-badge {
+  font-size: 11px;
+  min-width: 22px;
+  text-align: center;
+  padding: 2px 7px;
+  border-radius: var(--radius-full);
+  background: var(--accent-alpha-25);
+  border: 1px solid var(--accent-alpha-40);
+  color: var(--text-highlight);
+  font-weight: 600;
+}
+
+.queue-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Same shape as the library filter pills */
+.queue-action-btn {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-full);
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 5px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.15s ease;
+}
+
+.queue-action-btn:hover {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.35);
+  color: #f87171;
+}
+
+.queue-close-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.15s ease;
+}
+
+.queue-close-btn:hover {
+  color: var(--text-highlight);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* One continuous list: played → now playing → up next, no section headers */
+.queue-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.queue-section {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.queue-title-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.queue-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.queue-context {
+  font-size: 11px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 220px;
+}
+
+.queue-context:empty {
+  display: none;
+}
+
+.queue-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 6px;
+}
+
+/* Same as the library table header */
+.queue-section-title {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  padding: 0 6px;
+}
+
+.queue-section-header .queue-section-title {
+  padding: 0;
+}
+
+.queue-link-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 11px;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 4px;
+  transition: color 0.15s ease;
+}
+
+.queue-link-btn:hover {
+  color: var(--text-highlight);
+}
+
+/* Now playing card — same treatment as the playing row in the library */
+.queue-now-playing-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  background: var(--accent-alpha-15);
+  border: 1px solid var(--accent-alpha-40);
+  border-radius: var(--radius-md);
+  position: relative;
+  overflow: hidden;
+}
+
+.queue-np-thumb {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: var(--shadow-sm);
+}
+
+.queue-thumb-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+}
+
+.queue-np-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.queue-np-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.queue-np-artist {
+  font-size: 12px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.queue-np-source {
+  display: inline-block;
+  width: fit-content;
+  font-size: 10px;
+  font-weight: 500;
+  padding: 0 6px;
+  margin-top: 3px;
+  border-radius: var(--radius-full);
+}
+
+.queue-np-source.source-soundcloud {
+  background: rgba(255, 85, 0, 0.15);
+  color: var(--brand-soundcloud);
+  border: 1px solid rgba(255, 85, 0, 0.3);
+}
+
+.queue-np-source.source-yandex {
+  background: rgba(252, 63, 29, 0.15);
+  color: var(--brand-yandex-accent);
+  border: 1px solid rgba(252, 63, 29, 0.3);
+}
+
+.queue-np-anim {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 14px;
+  margin: 0 4px 0 6px;
+  flex-shrink: 0;
+}
+
+/* Same wave as the playing row in the library (soundWave keyframes live in library.css) */
+.queue-np-anim span {
+  width: 3px;
+  background: var(--accent-primary);
+  border-radius: 2px;
+  animation: soundWave 1.1s ease-in-out infinite alternate;
+}
+
+.queue-np-anim span:nth-child(1) { height: 55%; animation-delay: 0s; }
+.queue-np-anim span:nth-child(2) { height: 100%; animation-delay: 0.25s; }
+.queue-np-anim span:nth-child(3) { height: 40%; animation-delay: 0.5s; }
+.queue-np-anim span:nth-child(4) { height: 80%; animation-delay: 0.15s; }
+
+.queue-np-anim.paused span {
+  animation-play-state: paused;
+  opacity: 0.5;
+}
+
+/* Track lists (history + up next) — styled like library track rows */
+.queue-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.queue-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 8px;
+  border-radius: var(--radius-md);
+  background: transparent;
+  border: 1px solid transparent;
+  transition: background 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
+  user-select: none;
+}
+
+.queue-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.queue-item.dragging {
+  opacity: 0.4;
+  background: var(--accent-alpha-15);
+  border: 1px dashed var(--accent-primary);
+}
+
+.queue-item.drag-over {
+  border-top: 2px solid var(--accent-primary);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* Streaming-service queue rows: the whole row starts the track */
+.queue-item-clickable {
+  cursor: pointer;
+}
+
+.queue-item-clickable:hover .queue-history-replay {
+  opacity: 1;
+}
+
+.queue-loading {
+  padding: 14px 8px;
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* Previously played: dimmed until hovered */
+.queue-item-history {
+  cursor: pointer;
+  opacity: 0.55;
+}
+
+.queue-item-history:hover {
+  opacity: 1;
+}
+
+.queue-history-thumb-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.queue-history-replay {
+  position: absolute;
+  inset: 0;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.queue-item-history:hover .queue-history-replay {
+  opacity: 1;
+}
+
+.queue-source-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.queue-source-dot.source-soundcloud {
+  background: var(--brand-soundcloud);
+}
+
+.queue-source-dot.source-yandex {
+  background: var(--brand-yandex-accent);
+}
+
+.queue-drag-handle {
+  color: var(--text-muted);
+  cursor: grab;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+  opacity: 0.35;
+  transition: opacity 0.15s ease, color 0.15s ease;
+}
+
+.queue-item:hover .queue-drag-handle {
+  opacity: 1;
+  color: var(--text-secondary);
+}
+
+.queue-drag-handle:active {
+  cursor: grabbing;
+}
+
+.queue-thumb {
+  width: 38px;
+  height: 38px;
+  border-radius: 4px;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.queue-item-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  cursor: pointer;
+}
+
+.queue-item-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.queue-item-artist {
+  font-size: 11px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.queue-item-time {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+}
+
+.queue-item-actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  width: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.queue-item:hover .queue-item-actions {
+  width: auto;
+  opacity: 1;
+}
+
+.queue-item:hover .queue-item-time {
+  display: none;
+}
+
+.queue-btn-action {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.queue-btn-action:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.queue-btn-action.delete:hover {
+  color: #f87171;
+  background: rgba(239, 68, 68, 0.15);
+}
+
+/* ==========================================================================
+   Equalizer popover (same glass panel as the queue drawer)
+   ========================================================================== */
+.queue-drawer.eq-panel {
+  height: auto;
+  width: 420px;
+}
+
+.eq-panel-body {
+  padding: 14px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.eq-panel .eq-sliders-board {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 12px 6px 10px;
+}
+
+.eq-panel .eq-sliders-board::before {
+  top: calc(50% - 4px);
+  background: var(--accent-alpha-25);
+}
+
+.eq-panel .eq-band-col {
+  gap: 6px;
+}
+
+.eq-panel .eq-val-label {
+  font-size: 10px;
+  font-family: inherit;
+  font-variant-numeric: tabular-nums;
+  min-height: 14px;
+}
+
+.eq-panel .eq-slider-vertical-wrap {
+  height: 130px;
+  width: 30px;
+}
+
+.eq-panel .eq-slider-vertical {
+  width: 116px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.eq-panel .eq-slider-vertical::-webkit-slider-thumb {
+  width: 14px;
+  height: 14px;
+  background: #ffffff;
+  border: 3px solid var(--accent-primary);
+  box-shadow: 0 0 10px var(--accent-alpha-40);
+}
+
+.eq-panel .eq-freq-label {
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.eq-panel.eq-disabled .eq-sliders-board,
+.eq-panel.eq-disabled .eq-presets-wrap {
+  opacity: 0.4;
+  filter: grayscale(0.6);
+}
+
+.eq-presets-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2px;
+}
+
+.eq-presets-title {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+.eq-panel .eq-presets-wrap {
+  flex-wrap: wrap;
+  overflow: visible;
+  padding: 0;
+}
+
+/* Same look as the library filter pills */
+.eq-panel .eq-preset-chip {
+  padding: 5px 11px;
+  font-size: 11px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.eq-panel .eq-preset-chip:hover {
+  border-color: var(--accent-alpha-40);
+}
+
+.eq-panel .eq-preset-chip.active {
+  background: var(--accent-alpha-25);
+  border-color: var(--accent-primary);
+  color: var(--text-highlight);
+  box-shadow: none;
+}
+
+/* On/off switch */
+.eq-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+  margin-right: 4px;
+}
+
+.eq-switch input {
+  display: none;
+}
+
+.eq-switch-track {
+  width: 34px;
+  height: 20px;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  transition: background var(--transition-fast), border-color var(--transition-fast);
+}
+
+.eq-switch-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #ffffff;
+  transition: transform var(--transition-fast);
+}
+
+.eq-switch input:checked + .eq-switch-track {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+}
+
+.eq-switch input:checked + .eq-switch-track .eq-switch-thumb {
+  transform: translateX(14px);
+}
+
+.eq-switch-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  min-width: 28px;
+}
+
+/* Empty Queue */
+.queue-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 56px 20px;
+  color: var(--text-muted);
+  gap: 8px;
+  margin: auto 0;
+}
+
+.queue-empty-state svg {
+  color: var(--accent-primary);
+  opacity: 0.7;
+}
+
+.queue-empty-state span {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.queue-empty-state p {
+  font-size: 12px;
+  line-height: 1.5;
+  max-width: 260px;
+}

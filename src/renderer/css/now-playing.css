@@ -1,0 +1,520 @@
+/* ==========================================================================
+   Fullscreen "Now Playing" View + clickable track info in the player bar
+   ========================================================================== */
+
+/* Player bar: artwork opens the fullscreen view, title/artist open the source */
+.player-artwork.clickable {
+  cursor: pointer;
+  position: relative;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.player-artwork.clickable:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.15);
+}
+
+#player-track-title {
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+
+#player-track-artist {
+  transition: color var(--transition-fast);
+}
+
+/* Hover: theme accent color instead of an underline */
+#player-track-title:hover,
+#player-track-artist.clickable:hover {
+  color: var(--accent-primary);
+}
+
+#player-track-artist.clickable {
+  cursor: pointer;
+}
+
+/* Library: highlight the track opened from the player */
+@keyframes track-row-flash {
+  0%, 100% { background: transparent; }
+  25%, 60% { background: var(--accent-alpha-25); }
+}
+
+.track-row.track-row-flash td {
+  animation: track-row-flash 1.8s ease;
+}
+
+/* --------------------------------------------------------------------------
+   Overlay
+   -------------------------------------------------------------------------- */
+.np-view {
+  position: fixed;
+  top: 38px; /* below the custom titlebar */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  background: #050507;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(24px);
+  transition: opacity var(--transition-normal), transform var(--transition-smooth), visibility 0s linear 0.25s;
+}
+
+.np-view.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition: opacity var(--transition-normal), transform var(--transition-smooth), visibility 0s;
+}
+
+.np-backdrop {
+  position: absolute;
+  inset: -80px;
+  background-size: cover;
+  background-position: center;
+  filter: blur(70px) saturate(1.4) brightness(0.45);
+  transform: scale(1.1);
+  transition: background-image 0.6s ease;
+}
+
+.np-backdrop::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0.65) 100%);
+}
+
+/* User's app background (Settings → Appearance), same blur and dim as the main window.
+   When it is set it replaces the blurred-artwork backdrop. */
+.np-app-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  display: none;
+}
+
+.np-view.has-app-bg .np-app-bg {
+  display: block;
+}
+
+.np-view.has-app-bg .np-backdrop {
+  display: none;
+}
+
+.np-app-bg-image {
+  position: absolute;
+  inset: -30px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: blur(var(--custom-bg-blur, 10px));
+  transform: scale(1.06);
+}
+
+.np-app-bg-dim {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.35) 100%),
+    rgba(0, 0, 0, var(--custom-bg-dim, 0.4));
+}
+
+/* With the animated background the fullscreen view is see-through: the app content is
+   hidden and the shared background canvas shows behind it (under the dim layer) */
+body.bg-anim .np-view {
+  background: transparent;
+}
+
+body.bg-anim .np-view .np-backdrop,
+body.bg-anim .np-view .np-app-bg-image {
+  display: none;
+}
+
+body.bg-anim .np-view .np-app-bg {
+  display: block;
+}
+
+body.bg-anim.np-open .app-container {
+  visibility: hidden;
+}
+
+/* The canvas is already dimmed by the app overlay: keep only the readability gradient */
+body.bg-anim .np-view .np-app-bg-dim {
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.35) 100%);
+}
+
+.np-close-btn {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  z-index: 2;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.np-close-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.np-layout {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  display: grid;
+  grid-template-columns: minmax(320px, 1fr) minmax(320px, 1fr);
+  gap: 56px;
+  align-items: center;
+  padding: 48px 64px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Left column: artwork, info, progress, controls */
+.np-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  min-width: 0;
+}
+
+.np-artwork {
+  width: min(48vh, 440px, 100%);
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  overflow: hidden;
+}
+
+.np-artwork img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.np-info {
+  width: min(48vh, 440px, 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  min-width: 0;
+}
+
+.np-source-tag {
+  font-size: 11px;
+  padding: 1px 8px;
+  border-radius: var(--radius-full);
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.np-source-tag.source-local {
+  background: var(--accent-alpha-15);
+  color: var(--accent-primary);
+  border: 1px solid var(--accent-alpha-40);
+}
+
+.np-source-tag.source-soundcloud {
+  background: rgba(255, 85, 0, 0.15);
+  color: var(--brand-soundcloud);
+  border: 1px solid rgba(255, 85, 0, 0.3);
+}
+
+.np-source-tag.source-yandex {
+  background: rgba(252, 63, 29, 0.15);
+  color: var(--brand-yandex-accent);
+  border: 1px solid rgba(252, 63, 29, 0.3);
+}
+
+.np-title {
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--text-highlight);
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.np-artist {
+  font-size: 16px;
+  color: var(--text-secondary);
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.np-title,
+.np-artist {
+  transition: color var(--transition-fast);
+}
+
+.np-title:hover,
+.np-artist.clickable:hover {
+  color: var(--accent-primary);
+}
+
+.np-artist.clickable {
+  cursor: pointer;
+}
+
+.np-progress {
+  width: min(48vh, 440px, 100%);
+}
+
+.np-seek {
+  position: relative;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  touch-action: none;
+}
+
+.np-seek-track {
+  width: 100%;
+  height: 4px;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.18);
+  overflow: hidden;
+}
+
+.np-seek-fill {
+  height: 100%;
+  width: 0;
+  background: var(--text-highlight);
+  border-radius: var(--radius-full);
+}
+
+.np-seek-thumb {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--text-highlight);
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform var(--transition-fast);
+}
+
+.np-seek:hover .np-seek-thumb {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.np-times {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+  font-variant-numeric: tabular-nums;
+}
+
+.np-controls {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.np-ctrl {
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  cursor: pointer;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.85;
+  transition: var(--transition-fast);
+  position: relative;
+}
+
+.np-ctrl:hover {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.np-ctrl.active {
+  color: var(--accent-primary);
+  opacity: 1;
+}
+
+.np-ctrl.repeat-one::after {
+  content: '1';
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.np-ctrl-play {
+  width: 68px;
+  height: 68px;
+  background: var(--text-highlight);
+  color: #000;
+  opacity: 1;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+}
+
+.np-ctrl-play:hover {
+  background: #fff;
+  transform: scale(1.05);
+}
+
+.np-volume {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: -4px;
+}
+
+.np-vol-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 50%;
+  transition: var(--transition-fast);
+}
+
+.np-vol-btn:hover {
+  color: var(--text-primary);
+}
+
+.np-vol-slider {
+  width: 160px;
+}
+
+/* Right column: lyrics */
+.np-lyrics-panel {
+  height: min(100%, 640px);
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+}
+
+.np-lyrics-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+  padding-bottom: 12px;
+}
+
+.np-lyrics-source {
+  font-size: 11px;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--text-muted);
+}
+
+.np-lyrics {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 12px 40% 0;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 8%, #000 85%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0, #000 8%, #000 85%, transparent 100%);
+}
+
+.np-lyric-line {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.4;
+  padding: 6px 0;
+  color: rgba(255, 255, 255, 0.85);
+  user-select: text;
+  transition: color 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
+}
+
+.np-lyrics.synced .np-lyric-line {
+  color: rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+  transform-origin: left center;
+}
+
+.np-lyrics.synced .np-lyric-line:hover {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.np-lyrics.synced .np-lyric-line.past {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.np-lyrics.synced .np-lyric-line.active {
+  color: var(--text-highlight);
+  transform: scale(1.03);
+}
+
+.np-lyric-line.plain {
+  font-size: 18px;
+  font-weight: 600;
+  padding: 3px 0;
+}
+
+.np-lyrics-message {
+  color: var(--text-secondary);
+  font-size: 15px;
+  padding-top: 24px;
+}
+
+.np-lyrics-message.loading {
+  animation: np-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes np-pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+/* Narrow windows: stack lyrics under the player */
+@media (max-width: 1180px) {
+  .np-layout {
+    gap: 36px;
+    padding: 40px 40px;
+  }
+
+  .np-artwork,
+  .np-info,
+  .np-progress {
+    width: min(42vh, 380px, 100%);
+  }
+
+  .np-lyric-line {
+    font-size: 19px;
+  }
+}

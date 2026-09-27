@@ -1,0 +1,136 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  overflow: hidden;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  user-select: none;
+}
+
+.overlay-player {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  height: 100%;
+  padding: 10px 12px;
+  background: rgba(20, 20, 24, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+}
+
+.overlay-art-wrap {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.overlay-art-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none;
+}
+
+.overlay-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.overlay-title,
+.overlay-artist {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.overlay-title {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.overlay-artist {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.overlay-title,
+.overlay-artist {
+  align-self: flex-start;
+  max-width: 100%;
+}
+
+.overlay-restore {
+  cursor: pointer;
+  transition: color 0.15s ease, opacity 0.15s ease, transform 0.15s ease;
+}
+
+.overlay-art-wrap.overlay-restore:hover {
+  opacity: 0.85;
+  transform: scale(1.04);
+}
+
+.overlay-artist.overlay-restore:hover {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.overlay-title.overlay-restore:hover {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.overlay-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.overlay-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.75);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.overlay-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.overlay-btn-play {
+  width: 32px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+.overlay-btn-play:hover {
+  background: rgba(255, 255, 255, 0.2);
+}

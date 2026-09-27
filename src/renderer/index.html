@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sharmanka</title>
+  <link rel="icon" type="image/png" href="../../icon.png">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/sidebar.css">
+  <link rel="stylesheet" href="css/library.css">
+  <link rel="stylesheet" href="css/player.css">
+  <link rel="stylesheet" href="css/modals.css">
+  <link rel="stylesheet" href="css/now-playing.css">
+  <link rel="stylesheet" href="css/settings.css">
+</head>
+<body>
+  <!-- Custom Background Wallpaper Layer -->
+  <div class="app-background-layer" id="app-bg-layer">
+    <div class="app-background-image" id="app-bg-image"></div>
+    <div class="app-background-overlay" id="app-bg-overlay"></div>
+  </div>
+
+  <!-- Custom Windows Titlebar -->
+  <header class="app-titlebar">
+    <div class="titlebar-brand">
+      <img class="titlebar-app-icon" src="../../icon.png" alt="Sharmanka" />
+      <span>Sharmanka</span>
+    </div>
+    <div class="titlebar-controls">
+      <button class="titlebar-btn" id="btn-win-min" title="Свернуть">
+        <svg xmlns="http://www.w3.org/2000/svg" height="14px" viewBox="0 -960 960 960" width="14px" fill="currentColor">
+          <path d="M240-120v-80h480v80H240Z"/>
+        </svg>
+      </button>
+      <button class="titlebar-btn" id="btn-win-max" title="Развернуть">
+        <svg xmlns="http://www.w3.org/2000/svg" height="12px" viewBox="0 -960 960 960" width="12px" fill="currentColor">
+          <path d="M200-200v-560h560v560H200Zm80-80h400v-400H280v400Z"/>
+        </svg>
+      </button>
+      <button class="titlebar-btn close" id="btn-win-close" title="Закрыть">
+        <svg xmlns="http://www.w3.org/2000/svg" height="14px" viewBox="0 -960 960 960" width="14px" fill="currentColor">
+          <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- App Main Body -->
+  <div class="app-container">
+    <!-- Left Navigation Sidebar (Compact Icon Rail) -->
+    <aside class="app-sidebar" id="app-sidebar">
+      <nav class="sidebar-nav">
+        <!-- Tab 1: Library -->
+        <a class="nav-item active" data-tab="library" title="Медиатека">
+            <div class="nav-item-content">
+              <div class="nav-icon">
+                <img class="nav-service-img" src="service_icon/mediateka.png" alt="Медиатека" />
+              </div>
+            </div>
+          </a>
+
+          <!-- Tab 2: SoundCloud -->
+          <a class="nav-item" data-tab="soundcloud" title="SoundCloud">
+            <div class="nav-item-content">
+              <div class="nav-icon">
+                <img class="nav-service-img" src="service_icon/soundcloud.png" alt="SoundCloud" />
+              </div>
+            </div>
+          </a>
+
+          <!-- Tab 3: Yandex Music -->
+          <a class="nav-item" data-tab="yandex" title="Яндекс Музыка">
+            <div class="nav-item-content">
+              <div class="nav-icon">
+                <img class="nav-service-img" src="service_icon/yandex_music.png" alt="Яндекс Музыка" />
+              </div>
+            </div>
+          </a>
+        </nav>
+
+        <div class="sidebar-footer">
+        <div class="settings-btn" id="btn-open-settings" title="Настройки">
+          <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor">
+            <path d="m370-80-16-128q-13-5-24.5-12T307-235l-119 50L78-375l103-78q-1-7-1-13.5v-27q0-6.5 1-13.5L78-585l110-190 119 50q11-8 23-15t24-12l16-128h220l16 128q13 5 24.5 12t22.5 15l119-50 110 190-103 78q1 7 1 13.5v27q0 6.5-2 13.5l103 78-110 190-118-50q-11 8-23 15t-24 12L590-80H370Zm112-280q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35Z"/>
+          </svg>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Views Area -->
+    <main class="main-content">
+      <div class="views-container">
+        
+        <!-- Tab 1: Library View -->
+        <section class="tab-view active" id="view-library">
+          <div class="library-view">
+            <!-- Library Header -->
+            <div class="library-header">
+              <div class="library-title-area">
+                <h1 class="library-heading">Медиатека</h1>
+                <span class="library-subheading" id="library-total-count">0 треков</span>
+              </div>
+                <div class="library-actions">
+                  <span id="library-scan-status" style="font-size: 12px; color: #38bdf8;"></span>
+                </div>
+            </div>
+
+            <!-- Library Sub-Navigation (Tracks, Albums, Playlists) -->
+            <div class="library-subnav">
+              <button class="subnav-btn active" data-sub="tracks">
+                <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="currentColor">
+                  <path d="M400-120q-66 0-113-47t-47-113q0-66 47-113t113-47q23 0 42.5 5.5T480-418v-422h240v160H560v400q0 66-47 113t-113 47Z"/>
+                </svg>
+                <span>Треки</span>
+              </button>
+              <button class="subnav-btn" data-sub="albums">
+                <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="currentColor">
+                  <path d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-240q33 0 56.5-23.5T560-480q0-33-23.5-56.5T480-560q-33 0-56.5 23.5T400-480q0 33 23.5 56.5T480-400Z"/>
+                </svg>
+                <span>Альбомы</span>
+              </button>
+              <button class="subnav-btn" data-sub="playlists">
+                <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="currentColor">
+                  <path d="M120-320v-80h320v80H120Zm0-160v-80h480v80H120Zm0-160v-80h480v80H120Zm520 480v-320l240 160-240 160Z"/>
+                </svg>
+                <span>Плейлисты</span>
+              </button>
+            </div>
+
+            <!-- SUBVIEW 1: Tracks List -->
+            <div class="library-subview active" id="library-subview-tracks">
+              <!-- Filter & Search Bar -->
+              <div class="library-filter-bar">
+                <div class="library-search-group">
+                  <div class="search-input-wrapper">
+                    <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px" fill="currentColor">
+                      <path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/>
+                    </svg>
+                    <input class="search-input" id="library-search-input" type="text" placeholder="Поиск">
+                  </div>
+                  <button class="library-shuffle-btn" id="btn-library-shuffle" title="Включить треки из списка в случайном порядке">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px" fill="currentColor">
+                      <path d="M560-160v-80h104L537-367l57-57 126 124v-100h80v240H560Zm0-480v-80h240v240h-80v-104L594-458l-57-56 127-126H560ZM160-160l424-424 56 56-424 424h-56Zm0-480h56l184 184-56 56-184-184v-56Z"/>
+                    </svg>
+                    <span>Вперемешку</span>
+                  </button>
+                </div>
+
+                <div class="filter-pills">
+                  <button class="filter-pill active" data-filter="all">Все треки</button>
+                  <button class="filter-pill" data-filter="soundcloud">SoundCloud</button>
+                  <button class="filter-pill" data-filter="local">Локальные</button>
+                  <button class="filter-pill" data-filter="liked">Избранное</button>
+                </div>
+              </div>
+
+              <!-- Tracks Table -->
+              <div class="tracks-container" id="library-table-wrapper">
+                <table class="track-table">
+                  <thead>
+                    <tr>
+                      <th style="width: 40px; text-align: center;">#</th>
+                      <th>Название</th>
+                      <th>Альбом</th>
+                      <th style="width: 110px;">Качество</th>
+                      <th style="width: 140px;">Источник</th>
+                      <th style="width: 80px;">Время</th>
+                      <th style="width: 50px;"></th>
+                    </tr>
+                  </thead>
+                  <tbody id="library-tracks-tbody">
+                    <!-- Generated via JS -->
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Empty State -->
+              <div class="library-empty-state" id="library-empty-state" style="display: none;">
+                <h2 class="empty-title">Ваша медиатека пуста</h2>
+              </div>
+            </div>
+
+            <!-- SUBVIEW 2: Albums Grid -->
+            <div class="library-subview" id="library-subview-albums">
+              <div class="library-filter-bar">
+                <div class="search-input-wrapper">
+                  <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px" fill="currentColor">
+                    <path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/>
+                  </svg>
+                  <input class="search-input" id="albums-search-input" type="text" placeholder="Поиск">
+                </div>
+
+                <div class="filter-pills" id="albums-sort-pills">
+                  <button class="filter-pill active" data-sort="default">Все альбомы</button>
+                  <button class="filter-pill" data-sort="year-desc">Сначала новые</button>
+                  <button class="filter-pill" data-sort="year-asc">Сначала старые</button>
+                  <button class="filter-pill" data-sort="name">По алфавиту</button>
+                  <button class="filter-pill" data-sort="tracks">По трекам</button>
+                </div>
+              </div>
+
+              <div class="cards-grid" id="albums-grid">
+                <!-- Generated via JS -->
+              </div>
+            </div>
+
+            <!-- SUBVIEW 3: Album Details View -->
+            <div class="library-subview" id="library-subview-album-details">
+              <div class="back-btn-row" style="display: flex; justify-content: space-between; align-items: center;">
+                <button class="btn-secondary" id="btn-back-to-albums">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="currentColor">
+                    <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"/>
+                  </svg>
+                  <span>Назад к альбомам</span>
+                </button>
+              </div>
+
+              <div class="details-header-banner">
+                <div class="details-cover-wrap" id="album-details-cover-wrap">
+                  <img id="album-details-cover" class="details-cover-img" src="" alt="cover" />
+                </div>
+                <div class="details-info-area">
+                  <span class="details-type-tag">Альбом</span>
+                  <h2 class="details-title" id="album-details-title">Альбом</h2>
+                  <span class="details-meta-line" id="album-details-artist">Исполнитель</span>
+                  <span class="details-meta-line" id="album-details-meta" style="color: var(--text-muted);">0 треков</span>
+                  <div class="details-actions-bar">
+                    <button class="btn-primary" id="btn-play-current-album">
+                      <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="currentColor">
+                        <path d="M320-200v-560l440 280-440 280Z"/>
+                      </svg>
+                      <span>Слушать альбом</span>
+                    </button>
+                    <button class="btn-secondary" id="btn-edit-current-album" title="Редактировать название, артиста и обложку">
+                      <svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px" fill="currentColor">
+                        <path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/>
+                      </svg>
+                      <span>Редактировать</span>
+                    </button>
+                    <button class="btn-secondary" id="btn-open-album-folder" title="Показать папку альбома в проводнике Windows">
+                      <svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px" fill="currentColor">
+                        <path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h240l80 80h320q33 0 56.5 23.5T880-640v400q0 33-23.5 56.5T800-160H160Zm0-80h640v-400H447l-80-80H160v480Zm0 0v-480 480Z"/>
+                      </svg>
+                      <span>Папка</span>
+                    </button>
+                    <button class="btn-secondary" id="btn-delete-current-album" style="color: #f43f5e;" title="Удалить этот альбом из списка альбомов">
+                      <svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px" fill="currentColor">
+                        <path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/>
+                      </svg>
+                      <span>Удалить</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="tracks-container">
+                <table class="track-table">
+                  <thead>
+                    <tr>
+                      <th style="width: 40px; text-align: center;">#</th>
+                      <th>Название</th>
+                      <th>Альбом</th>
+                      <th style="width: 110px;">Качество</th>
+                      <th style="width: 140px;">Источник</th>
+                      <th style="width: 80px;">Время</th>
+                      <th style="width: 50px;"></th>
+                    </tr>
+                  </thead>
+                  <tbody id="album-details-tbody"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- SUBVIEW 4: Playlists Grid -->
+            <div class="library-subview" id="library-subview-playlists">
+              <div class="cards-grid" id="playlists-grid">
+                <!-- Generated via JS -->
+              </div>
+            </div>
+
+            <!-- SUBVIEW 5: Playlist Details View -->
+            <div class="library-subview" id="library-subview-playlist-details">
+              <div class="back-btn-row">
+                <button class="btn-secondary" id="btn-back-to-playlists">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="currentColor">
+                    <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"/>
+                  </svg>
+                  <span>Назад к плейлистам</span>
+                </button>
+              </div>
+
+              <div class="details-header-banner">
+                <div class="details-cover-wrap" style="background: rgba(99, 102, 241, 0.15); color: var(--accent-primary);">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="60px" viewBox="0 -960 960 960" width="60px" fill="currentColor">
+                    <path d="M120-320v-80h320v80H120Zm0-160v-80h480v80H120Zm0-160v-80h480v80H120Zm520 480v-320l240 160-240 160Z"/>
+                  </svg>
+                </div>
+                <div class="details-info-area">
+                  <span class="details-type-tag">Плейлист</span>
+                  <h2 class="details-title" id="playlist-details-title">Плейлист</h2>
+                  <span class="details-meta-line" id="playlist-details-meta" style="color: var(--text-muted);">0 треков</span>
+                  <div class="details-actions-bar">
+                    <button class="btn-primary" id="btn-play-current-playlist">
+                      <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="currentColor">
+                        <path d="M320-200v-560l440 280-440 280Z"/>
+                      </svg>
+                      <span>Слушать плейлист</span>
+                    </button>
+                    <button class="btn-secondary" id="btn-edit-current-playlist">
+                      <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="currentColor">
+                        <path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/>
+                      </svg>
+                      <span>Редактировать</span>
+                    </button>
+                    <button class="btn-secondary" id="btn-delete-current-playlist" style="color: #f43f5e;">
+                      <span>Удалить плейлист</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="tracks-container">
+                <table class="track-table">
+                  <thead>
+                    <tr>
+                      <th style="width: 40px; text-align: center;">#</th>
+                      <th>Название</th>
+                      <th>Альбом</th>
+                      <th style="width: 110px;">Качество</th>
+                      <th style="width: 140px;">Источник</th>
+                      <th style="width: 80px;">Время</th>
+                      <th style="width: 50px;"></th>
+                    </tr>
+                  </thead>
+                  <tbody id="playlist-details-tbody"></tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- Tab 2: SoundCloud View -->
+        <section class="tab-view" id="view-soundcloud">
+          <div class="webview-wrapper">
+            <button class="service-reload-fab" id="btn-sc-reload" title="Перезагрузить страницу">
+              <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="currentColor">
+                <path d="M480-160q-134 0-227-93t-93-227q0-134 93-227t227-93q69 0 132 28.5T720-690v-110h80v280H520v-80h168q-32-56-87.5-88T480-720q-100 0-170 70t-70 170q0 100 70 170t170 70q77 0 139-44t87-116h84q-26 107-111 173.5T480-160Z"/>
+              </svg>
+            </button>
+            <webview id="wv-soundcloud" partition="persist:soundcloud" allowpopups allowtransparency="on" style="background: transparent !important;" plugins webpreferences="plugins=true, transparent=true"></webview>
+            
+            <!-- SoundCloud Network / Regional Block Error Overlay -->
+            <div class="service-error-overlay" id="soundcloud-error-overlay" style="display: none;">
+              <div class="service-error-card">
+                <div class="service-error-icon" style="color: #ff5500; background: rgba(255, 85, 0, 0.12);">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="36px" viewBox="0 -960 960 960" width="36px" fill="currentColor">
+                    <path d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm-40-360v-240h80v240h-80Zm0 160v-80h80v80h-80Z"/>
+                  </svg>
+                </div>
+                <h3 class="service-error-title">SoundCloud не смог загрузиться</h3>
+                <p class="service-error-desc" id="soundcloud-error-desc">Сервис SoundCloud заблокирован в РФ. Для его работы настройте зарубежный Прокси (США, Германия, Нидерланды и др.) в Настройках или запустите VPN.</p>
+                <div class="service-error-actions">
+                  <button class="btn-primary" id="btn-soundcloud-open-proxy">Настроить Прокси в Sharmanka</button>
+                  <button class="btn-secondary" id="btn-soundcloud-retry">Повторить попытку</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Tab 3: Yandex Music View -->
+        <section class="tab-view" id="view-yandex">
+          <div class="webview-wrapper">
+            <button class="service-reload-fab" id="btn-ym-reload" title="Перезагрузить страницу">
+              <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="currentColor">
+                <path d="M480-160q-134 0-227-93t-93-227q0-134 93-227t227-93q69 0 132 28.5T720-690v-110h80v280H520v-80h168q-32-56-87.5-88T480-720q-100 0-170 70t-70 170q0 100 70 170t170 70q77 0 139-44t87-116h84q-26 107-111 173.5T480-160Z"/>
+              </svg>
+            </button>
+            <webview id="wv-yandex" partition="persist:yandexmusic" allowpopups allowtransparency="on" style="background: transparent !important;" plugins webpreferences="contextIsolation=no, plugins=true, webSecurity=false, transparent=true"></webview>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- Bottom Audio Player Bar (Universal Player) -->
+      <footer class="bottom-player-bar" id="bottom-player">
+        <div class="player-left">
+          <div class="player-artwork" id="player-art-wrap">
+            <img id="player-art-img" src="" alt="" style="display: none; width: 100%; height: 100%; border-radius: 4px; object-fit: cover;" />
+            <svg id="player-art-placeholder" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor">
+              <path d="M400-120q-66 0-113-47t-47-113q0-66 47-113t113-47q23 0 42.5 5.5T480-418v-422h240v160H560v400q0 66-47 113t-113 47Z"/>
+            </svg>
+          </div>
+          <div class="player-track-details">
+            <span class="player-title" id="player-track-title">Трек не выбран</span>
+            <span class="player-artist" id="player-track-artist">Медиатека Sharmanka</span>
+            <span class="player-source-tag source-local" id="player-source-badge">Медиатека</span>
+          </div>
+          <button class="player-like-btn" id="player-like-btn" title="В избранное">
+            <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="currentColor">
+              <path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544.5T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 45-15.5 89.5T810-447.5q-39 52.5-105 118.5T538-172l-58 52Z"/>
+            </svg>
+          </button>
+          <button class="player-like-btn" id="player-download-btn" title="Скачать трек в медиатеку" style="display: none;">
+            <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="currentColor">
+              <path d="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-280 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T760-160H240Z"/>
+            </svg>
+          </button>
+        </div>
+
+        <div class="player-center">
+          <div class="player-controls">
+            <button class="ctrl-btn" id="ctrl-shuffle" title="Перемешать">
+              <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="currentColor">
+                <path d="M560-160v-80h104L537-367l57-57 126 124v-100h80v240H560Zm0-480v-80h240v240h-80v-104L594-458l-57-56 127-126H560ZM160-160l424-424 56 56-424 424h-56Zm0-480h56l184 184-56 56-184-184v-56Z"/>
+              </svg>
+            </button>
+            <button class="ctrl-btn" id="ctrl-prev" title="Предыдущий трек">
+              <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor">
+                <path d="M220-240v-480h80v480h-80Zm520 0L380-480l360-240v480Z"/>
+              </svg>
+            </button>
+            <button class="ctrl-btn ctrl-btn-play" id="ctrl-play" title="Воспроизведение">
+              <svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="currentColor">
+                <path d="M320-200v-560l440 280-440 280Z"/>
+              </svg>
+            </button>
+            <button class="ctrl-btn" id="ctrl-next" title="Следующий трек">
+              <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor">
+                <path d="M660-240v-480h80v480h-80ZM220-240v-480l360 240-360 240Z"/>
+              </svg>
+            </button>
+            <button class="ctrl-btn" id="ctrl-repeat" title="Повтор">
+              <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="currentColor">
+                <path d="M280-160v-80h400q50 0 85-35t35-85v-200h-80v200q0 17-11.5 28.5T680-320H280v-80L160-280l120 120Zm400-480v80H280q-50 0-85 35t-35 85v200h80v-200q0-17 11.5-28.5T280-640h400v80l120-120-120-120Z"/>
+              </svg>
+            </button>
+          </div>
+
+          <div class="player-progress-area">
+            <span class="time-label" id="player-cur-time">0:00</span>
+            <div class="seek-bar-container" id="seek-bar">
+              <div class="seek-bar-track">
+                <div class="seek-bar-fill" id="seek-bar-fill"></div>
+              </div>
+              <div class="seek-bar-thumb" id="seek-bar-thumb"></div>
+            </div>
+            <span class="time-label" id="player-total-time">0:00</span>
+          </div>
+        </div>
+
+        <div class="player-right">
+          <button class="ctrl-btn player-tool-btn" id="btn-toggle-queue" title="Очередь воспроизведения">
+            <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor">
+              <path d="M640-160q-50 0-85-35t-35-85q0-50 35-85t85-35q11 0 21 1.5t19 6.5v-328h200v80H760v360q0 50-35 85t-85 35ZM120-320v-80h320v80H120Zm0-160v-80h480v80H120Zm0-160v-80h480v80H120Z"/>
+            </svg>
+          </button>
+          <button class="ctrl-btn player-tool-btn" id="btn-open-equalizer" title="Эквалайзер">
+            <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor">
+              <path d="M160-160v-320h160v320H160Zm240 0v-640h160v640H400Zm240 0v-440h160v440H640Z"/>
+            </svg>
+          </button>
+          <div class="volume-container">
+            <button class="vol-btn" id="btn-volume-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="currentColor">
+                <path d="M560-131v-82q90-26 145-100t55-167q0-93-55-167T560-747v-82q124 28 202 125.5T840-480q0 127-78 224.5T560-131ZM120-360v-240h160l200-200v640L280-360H120Zm360-120Z"/>
+              </svg>
+            </button>
+            <input class="vol-slider" id="vol-slider" type="range" min="0" max="1" step="0.01" value="0.8" />
+          </div>
+        </div>
+      </footer>
+
+      <!-- Now Playing Queue Drawer / Panel -->
+      <div class="queue-drawer" id="queue-drawer">
+        <div class="queue-header">
+          <div class="queue-title-wrap">
+            <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor">
+              <path d="M640-160q-50 0-85-35t-35-85q0-50 35-85t85-35q11 0 21 1.5t19 6.5v-328h200v80H760v360q0 50-35 85t-85 35ZM120-320v-80h320v80H120Zm0-160v-80h480v80H120Zm0-160v-80h480v80H120Z"/>
+            </svg>
+            <div class="queue-title-text">
+              <div class="queue-title-row">
+                <span class="queue-title">Очередь треков</span>
+                <span class="queue-badge" id="queue-count-badge">0</span>
+              </div>
+              <span class="queue-context" id="queue-context"></span>
+            </div>
+          </div>
+          <div class="queue-actions">
+            <button class="queue-action-btn" id="btn-clear-queue" title="Очистить очередь">
+              <svg xmlns="http://www.w3.org/2000/svg" height="14px" viewBox="0 -960 960 960" width="14px" fill="currentColor">
+                <path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T760-120H280Zm480-600H280v520h480v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/>
+              </svg>
+              <span>Очистить</span>
+            </button>
+            <button class="queue-close-btn" id="btn-close-queue" title="Закрыть">
+              <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="currentColor">
+                <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- One continuous list: played (dimmed) → now playing (highlighted) → up next -->
+        <div class="queue-content" id="queue-content">
+          <div class="queue-section queue-section-history" id="queue-section-history" style="display: none;">
+            <div class="queue-list" id="queue-history-container">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+
+          <div class="queue-section" id="queue-section-now-playing">
+            <div class="queue-now-playing-card" id="queue-now-playing-card">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+
+          <div class="queue-section" id="queue-section-up-next">
+            <div class="queue-list" id="queue-list-container">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+
+          <!-- Empty State -->
+          <div class="queue-empty-state" id="queue-empty-state" style="display: none;">
+            <svg xmlns="http://www.w3.org/2000/svg" height="36px" viewBox="0 -960 960 960" width="36px" fill="currentColor">
+              <path d="M120-320v-80h320v80H120Zm0-160v-80h480v80H120Zm0-160v-80h480v80H120Zm520 480v-320l240 160-240 160Z"/>
+            </svg>
+            <span>Очередь пуста</span>
+            <p>Кликните ПКМ по треку и выберите «Воспроизвести следующим», или включите альбом</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Equalizer popover (opens in the same spot as the queue drawer) -->
+      <div class="queue-drawer eq-panel" id="equalizer-panel">
+        <div class="queue-header">
+          <div class="queue-title-wrap">
+            <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor">
+              <path d="M160-160v-320h160v320H160Zm240 0v-640h160v640H400Zm240 0v-440h160v440H640Z"/>
+            </svg>
+            <div class="queue-title-text">
+              <span class="queue-title">Эквалайзер</span>
+              <span class="queue-context">10 полос · для всех источников</span>
+            </div>
+          </div>
+          <div class="queue-actions">
+            <label class="eq-switch" title="Включить / выключить эквалайзер">
+              <input type="checkbox" id="eq-toggle-enable" checked />
+              <span class="eq-switch-track"><span class="eq-switch-thumb"></span></span>
+              <span class="eq-switch-label" id="eq-switch-label">Вкл</span>
+            </label>
+            <button class="queue-close-btn" id="btn-close-equalizer-modal" title="Закрыть">
+              <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="currentColor">
+                <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="eq-panel-body">
+          <div class="eq-sliders-board" id="eq-sliders-board">
+            <!-- Rendered via JS for 32, 64, 125, 250, 500, 1k, 2k, 4k, 8k, 16k -->
+          </div>
+
+          <div class="eq-presets-head">
+            <span class="eq-presets-title">Пресеты</span>
+            <button class="queue-link-btn" id="btn-eq-reset" title="Все полосы на 0 dB">Сбросить</button>
+          </div>
+          <div class="eq-presets-wrap" id="eq-presets-container">
+            <button class="eq-preset-chip active" data-preset="flat">Обычный</button>
+            <button class="eq-preset-chip" data-preset="bass_boost">Басы</button>
+            <button class="eq-preset-chip" data-preset="bass_treble">Басы + верха</button>
+            <button class="eq-preset-chip" data-preset="electronic">Электроника</button>
+            <button class="eq-preset-chip" data-preset="rock">Рок</button>
+            <button class="eq-preset-chip" data-preset="hiphop">Хип-хоп</button>
+            <button class="eq-preset-chip" data-preset="pop">Поп</button>
+            <button class="eq-preset-chip" data-preset="vocal">Вокал</button>
+            <button class="eq-preset-chip" data-preset="jazz">Джаз</button>
+            <button class="eq-preset-chip" data-preset="classical">Классика</button>
+            <button class="eq-preset-chip" data-preset="custom">Свой</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Custom Floating Context Menu for Tracks -->
+  <div class="context-menu" id="track-context-menu">
+    <div class="context-item" id="ctx-play">
+      <svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px" fill="currentColor">
+        <path d="M320-200v-560l440 280-440 280Z"/>
+      </svg>
+      <span>Воспроизвести</span>
+    </div>
+    <div class="context-item" id="ctx-play-next">
+      <svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px" fill="currentColor">
+        <path d="M160-200v-560h80v560h-80Zm520-280-360-240v480l360-240Zm-280 0v-240l180 120-180 120Zm360 280v-560h80v560h-80Z"/>
+      </svg>
+      <span>Воспроизвести следующим</span>
+    </div>
+    <div class="context-item" id="ctx-edit">
+      <svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px" fill="currentColor">
+        <path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/>
+      </svg>
+      <span>Редактировать трек</span>
+    </div>
+    <div class="context-item" id="ctx-like">
+      <svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px" fill="currentColor">
+        <path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544.5T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 45-15.5 89.5T810-447.5q-39 52.5-105 118.5T538-172l-58 52Z"/>
+      </svg>
+      <span>В избранное</span>
+    </div>
+    <div class="context-separator"></div>
+    <div style="padding: 4px 12px; font-size: 10px; text-transform: uppercase; color: var(--text-muted); font-weight: 700;">Добавить в плейлист:</div>
+    <div id="ctx-playlists-submenu" style="display: flex; flex-direction: column;">
+      <!-- Generated via JS -->
+    </div>
+    <div class="context-separator"></div>
+    <div class="context-item" id="ctx-show-folder">
+      <svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px" fill="currentColor">
+        <path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h240l80 80h320q33 0 56.5 23.5T880-640v400q0 33-23.5 56.5T800-160H160Zm0-80h640v-400H447l-80-80H160v480Zm0 0v-480 480Z"/>
+      </svg>
+      <span>Показать в папке Windows</span>
+    </div>
+    <div class="context-separator"></div>
+    <div class="context-item context-item-danger" id="ctx-delete">
+      <svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px" fill="currentColor">
+        <path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T760-120H280Zm480-600H280v520h480v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/>
+      </svg>
+      <span>Удалить трек</span>
+    </div>
+  </div>
+
+  <!-- Create Playlist Modal -->
+  <div class="modal-overlay" id="create-playlist-modal">
+    <div class="modal-card playlist-editor-card">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <span class="modal-title" id="playlist-editor-title">Новый плейлист</span>
+        </div>
+        <button class="modal-close-btn" id="btn-close-playlist-modal">
+          <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="currentColor">
+            <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body playlist-editor-body">
+        <div class="form-group">
+          <label class="form-label">Название плейлиста</label>
+          <input class="form-input" id="create-playlist-name-input" type="text" placeholder="Мой плейлист..." autofocus />
+        </div>
+
+        <div class="playlist-editor-tools">
+          <div class="search-input-wrapper">
+            <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px" fill="currentColor">
+              <path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/>
+            </svg>
+            <input class="search-input" id="playlist-editor-search" type="text" placeholder="Поиск" />
+          </div>
+          <div class="playlist-editor-filter" id="playlist-editor-filter">
+            <button type="button" class="pe-filter-btn active" data-filter="all">Все</button>
+            <button type="button" class="pe-filter-btn" data-filter="added">Добавленные <span id="playlist-editor-count">0</span></button>
+          </div>
+        </div>
+
+        <div class="playlist-editor-list" id="playlist-editor-list"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-primary" id="btn-submit-create-playlist" style="width: 100%;">Создать плейлист</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <!-- Settings: glass window with a sidebar, same visual language as the queue / equalizer -->
+  <div class="modal-overlay settings-overlay" id="settings-modal">
+    <div class="settings-window">
+      <!-- Sidebar -->
+      <aside class="settings-sidebar">
+        <div class="settings-brand">
+          <div class="settings-brand-icon" id="settings-brand-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor"><path d="m370-80-16-128q-13-5-24.5-12T307-235l-119 50L78-375l103-78q-1-7-1-13.5v-27q0-6.5 1-13.5L78-585l110-190 119 50q11-8 23-15t24-12l16-128h220l16 128q13 5 24.5 12t22.5 15l119-50 110 190-103 78q1 7 1 13.5v27q0 6.5-2 13.5l103 78-110 190-118-50q-11 8-23 15t-24 12L590-80H370Zm112-280q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35Z"/></svg>
+          </div>
+          <div>
+            <div class="settings-brand-title">Настройки</div>
+            <div class="settings-brand-sub">Sharmanka</div>
+          </div>
+        </div>
+
+        <nav class="settings-nav">
+          <button class="settings-nav-item" data-tab="folders">
+            <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="currentColor"><path d="M400-120q-66 0-113-47t-47-113q0-66 47-113t113-47q23 0 42.5 5.5T480-418v-422h240v160H560v400q0 66-47 113t-113 47Z"/></svg>
+            <span>Медиатека</span>
+          </button>
+          <button class="settings-nav-item" data-tab="server">
+            <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="currentColor"><path d="M260-160q-91 0-155.5-63T40-377q0-78 47-139t123-78q25-92 100-149t170-57q117 0 198.5 81.5T760-520q69 8 114.5 59.5T920-340q0 75-52.5 127.5T740-160H260Zm0-80h480q42 0 71-29t29-71q0-42-29-71t-71-29h-60v-80q0-83-58.5-141.5T480-720q-83 0-141.5 58.5T280-520h-20q-58 0-99 41t-41 99q0 58 41 99t99 41Zm220-240Z"/></svg>
+            <span>Сервер</span>
+          </button>
+          <button class="settings-nav-item" data-tab="appearance">
+            <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="currentColor"><path d="M480-80q-82 0-155-31.5t-127.5-86Q143-252 111.5-325T80-480q0-83 32.5-156t88-127Q256-817 330-848.5T488-880q80 0 151 27.5t124.5 76q53.5 48.5 85 115T880-518q0 115-70 176.5T640-280h-74q-9 0-12.5 5t-3.5 11q0 12 15 34.5t15 51.5q0 50-27.5 74T480-80Zm0-400Zm-220 40q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm120-160q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm200 0q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm120 160q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17ZM480-160q9 0 14.5-5t5.5-13q0-14-15-33t-15-57q0-42 29-67t71-25h70q66 0 113-38.5T800-518q0-121-92.5-201.5T488-800q-136 0-232 93t-96 227q0 133 93.5 226.5T480-160Z"/></svg>
+            <span>Внешний вид</span>
+          </button>
+          <button class="settings-nav-item" data-tab="background">
+            <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="currentColor"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Zm40-80h480L570-480 450-320l-90-120-120 160Zm-40 80v-560 560Z"/></svg>
+            <span>Фон</span>
+          </button>
+          <button class="settings-nav-item" data-tab="player">
+            <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="currentColor"><path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Zm0-80h640v-480H160v480Zm320-60 200-120-200-120v240Z"/></svg>
+            <span>Мини-плеер</span>
+          </button>
+          <button class="settings-nav-item" data-tab="proxy">
+            <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="currentColor"><path d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm-40-82v-78q-33 0-56.5-23.5T360-320v-40L168-552q-3 18-5.5 36t-2.5 36q0 121 79.5 212T440-162Zm276-102q41-45 62.5-100.5T800-480q0-98-54.5-179T600-776v16q0 33-23.5 56.5T520-680h-80v80q0 17-11.5 28.5T400-560h-80v80h240q17 0 28.5 11.5T600-440v120h40q26 0 47 15.5t29 40.5Z"/></svg>
+            <span>Прокси</span>
+          </button>
+          <!-- Easter egg: appears after 10 clicks on the settings icon -->
+          <button class="settings-nav-item settings-nav-secret" data-tab="secrets" id="settings-nav-secrets" style="display: none;">
+            <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="currentColor"><path d="M440-80v-168L310-120l-56-56 186-186v-78h-78L176-254l-56-56 128-130H80v-80h168L120-650l56-56 186 186h78v-78L254-784l56-56 130 128v-168h80v168l130-128 56 56-186 186v78h78l186-186 56 56-128 130h168v80H712l128 130-56 56-186-186h-78v78l186 186-56 56-130-128v168h-80Z"/></svg>
+            <span>Секреты</span>
+          </button>
+        </nav>
+      </aside>
+
+      <!-- Content -->
+      <section class="settings-content">
+        <button class="settings-close-btn" id="btn-close-settings" title="Закрыть (Esc)">
+          <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="currentColor"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
+        </button>
+
+        <!-- ===== Медиатека ===== -->
+        <div class="settings-section" data-section="folders" id="settings-tab-folders">
+          <header class="settings-section-head">
+            <h2>Медиатека</h2>
+            <p>Папка с музыкой на компьютере и обложки треков</p>
+          </header>
+
+          <div class="set-group">
+            <div class="set-group-title">Папка с музыкой на ПК</div>
+            <div class="set-row set-row-stack">
+              <div class="set-text">
+                <span class="set-desc">Файлы в корне папки попадают во «Все треки», каждая вложенная папка становится альбомом.</span>
+              </div>
+              <div class="set-inline">
+                <input type="text" id="settings-music-folder-path" class="set-input set-input-mono" readonly placeholder="Папка не выбрана" />
+                <button class="set-btn set-btn-primary" id="btn-settings-choose-folder">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px" fill="currentColor"><path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h240l80 80h320q33 0 56.5 23.5T880-640v400q0 33-23.5 56.5T800-160H160Zm0-80h640v-400H447l-80-80H160v480Zm0 0v-480 480Z"/></svg>
+                  <span>Выбрать</span>
+                </button>
+                <button class="set-btn set-btn-icon" id="btn-settings-rescan-folder" title="Пересканировать медиатеку">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px" fill="currentColor"><path d="M480-160q-134 0-227-93t-93-227q0-134 93-227t227-93q69 0 132 28.5T720-690v-110h80v280H520v-80h168q-32-56-87.5-88T480-720q-100 0-170 70t-70 170q0 100 70 170t170 70q77 0 139-44t87-116h84q-26 107-111 173.5T480-160Z"/></svg>
+                </button>
+                <button class="set-btn set-btn-icon set-btn-danger" id="btn-settings-clear-folder" title="Убрать папку из медиатеки">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px" fill="currentColor"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
+                </button>
+              </div>
+              <div class="set-status" id="settings-music-folder-stats"></div>
+            </div>
+          </div>
+
+          <div class="set-group">
+            <div class="set-group-title">Обложки</div>
+            <label class="set-row">
+              <div class="set-text">
+                <span class="set-label">Искать обложки в интернете</span>
+                <span class="set-desc">Если обложки нет в файле или папке, она ищется по исполнителю и названию в Deezer и iTunes. Файлы не изменяются.</span>
+              </div>
+              <span class="ui-switch"><input type="checkbox" id="settings-auto-covers" /><span class="ui-switch-track"><span class="ui-switch-thumb"></span></span></span>
+            </label>
+            <div class="set-row">
+              <div class="set-text">
+                <span class="set-label">Найти недостающие сейчас</span>
+                <span class="set-desc" id="covers-status-text">Проверит все треки и альбомы без обложки</span>
+              </div>
+              <button class="set-btn" id="btn-find-covers">Найти</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== Сервер ===== -->
+        <div class="settings-section" data-section="server">
+          <header class="settings-section-head">
+            <h2>Сервер <span class="set-badge-ok" id="remote-status-badge" style="display: none;">Подключено</span></h2>
+            <p>Медиатека из папки на сервере (WebDAV) — воспроизведение, удаление, теги и скачивание работают как с папкой на ПК</p>
+          </header>
+
+          <div class="set-group">
+            <div class="set-group-title">Подключение</div>
+            <div class="set-row set-row-stack">
+              <label class="set-field">
+                <span class="set-field-label">Адрес папки</span>
+                <input type="text" id="remote-url" class="set-input set-input-mono" placeholder="http://192.168.0.14:8080/music" spellcheck="false" />
+              </label>
+              <div class="set-inline">
+                <label class="set-field">
+                  <span class="set-field-label">Логин</span>
+                  <input type="text" id="remote-username" class="set-input" placeholder="Логин" autocomplete="off" spellcheck="false" />
+                </label>
+                <label class="set-field">
+                  <span class="set-field-label">Пароль</span>
+                  <input type="password" id="remote-password" class="set-input" placeholder="Пароль" autocomplete="new-password" />
+                </label>
+              </div>
+              <div class="set-inline">
+                <button class="set-btn set-btn-primary" id="btn-remote-connect">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px" fill="currentColor"><path d="M260-160q-91 0-155.5-63T40-377q0-78 47-139t123-78q25-92 100-149t170-57q117 0 198.5 81.5T760-520q69 8 114.5 59.5T920-340q0 75-52.5 127.5T740-160H260Zm0-80h480q42 0 71-29t29-71q0-42-29-71t-71-29h-60v-80q0-83-58.5-141.5T480-720q-83 0-141.5 58.5T280-520h-20q-58 0-99 41t-41 99q0 58 41 99t99 41Zm220-240Z"/></svg>
+                  <span>Подключить</span>
+                </button>
+                <button class="set-btn" id="btn-remote-test">Проверить</button>
+                <button class="set-btn set-btn-danger" id="btn-remote-disconnect" style="display: none;">Отключить</button>
+              </div>
+              <div class="set-status" id="remote-status-text"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== Внешний вид ===== -->
+        <div class="settings-section" data-section="appearance" id="settings-tab-appearance">
+          <header class="settings-section-head">
+            <h2>Внешний вид</h2>
+            <p>Акцентный цвет кнопок, подсветки и анимаций</p>
+          </header>
+
+          <div class="set-group">
+            <div class="set-group-title">Акцентный цвет</div>
+            <div class="set-row set-row-stack">
+              <div class="color-palette-presets" id="color-palette-presets">
+                <button type="button" class="color-preset-btn active" data-color="#6366f1" title="Индиго" style="background: #6366f1;"></button>
+                <button type="button" class="color-preset-btn" data-color="#0ea5e9" title="Электрик блю" style="background: #0ea5e9;"></button>
+                <button type="button" class="color-preset-btn" data-color="#10b981" title="Изумруд" style="background: #10b981;"></button>
+                <button type="button" class="color-preset-btn" data-color="#f43f5e" title="Малиновый" style="background: #f43f5e;"></button>
+                <button type="button" class="color-preset-btn" data-color="#f59e0b" title="Янтарный" style="background: #f59e0b;"></button>
+                <button type="button" class="color-preset-btn" data-color="#a855f7" title="Фиолетовый" style="background: #a855f7;"></button>
+                <button type="button" class="color-preset-btn" data-color="#ec4899" title="Розовый" style="background: #ec4899;"></button>
+                <button type="button" class="color-preset-btn" data-color="#ffffff" title="Монохром" style="background: #ffffff;"></button>
+                <label class="color-custom-btn" title="Свой цвет">
+                  <input type="color" id="accent-color-picker" value="#6366f1" />
+                  <svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px" fill="currentColor"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg>
+                </label>
+              </div>
+            </div>
+            <label class="set-row">
+              <div class="set-text">
+                <span class="set-label">Цвет из обложки</span>
+                <span class="set-desc">Интерфейс окрашивается в цвет обложки играющего трека. Для чёрно-белых обложек используется цвет выше.</span>
+              </div>
+              <span class="ui-switch"><input type="checkbox" id="settings-accent-from-cover" /><span class="ui-switch-track"><span class="ui-switch-thumb"></span></span></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- ===== Фон ===== -->
+        <div class="settings-section" data-section="background">
+          <header class="settings-section-head">
+            <h2>Фон</h2>
+            <p>Картинка или GIF на фоне приложения и анимации под ритм музыки</p>
+          </header>
+
+          <div class="set-group">
+            <div class="set-group-title">Картинка</div>
+            <div class="set-row">
+              <div class="bg-preview" id="bg-image-preview">
+                <span id="bg-image-placeholder-text">Нет фона</span>
+              </div>
+              <div class="set-text">
+                <span class="set-label">Своё изображение</span>
+                <span class="set-desc">JPG, PNG, WebP или анимированный GIF</span>
+              </div>
+              <div class="set-inline set-inline-end">
+                <button type="button" class="set-btn set-btn-primary" id="btn-choose-bg-image">Выбрать</button>
+                <button type="button" class="set-btn set-btn-danger" id="btn-remove-bg-image">Сбросить</button>
+              </div>
+            </div>
+            <div class="set-row set-row-stack">
+              <div class="set-slider-head"><span class="set-label">Затемнение</span><span class="set-value" id="bg-dim-val-label">40%</span></div>
+              <input type="range" id="slider-bg-dim" min="0" max="95" step="5" value="40" class="set-range" />
+            </div>
+            <div class="set-row set-row-stack">
+              <div class="set-slider-head"><span class="set-label">Размытие</span><span class="set-value" id="bg-blur-val-label">10 px</span></div>
+              <input type="range" id="slider-bg-blur" min="0" max="40" step="1" value="10" class="set-range" />
+            </div>
+          </div>
+
+          <div class="set-group">
+            <div class="set-group-title">Анимация под ритм</div>
+            <div class="set-row set-row-stack">
+              <span class="set-desc">Реагирует на музыку из медиатеки, SoundCloud и Яндекс Музыки. Пока анимация включена, картинка фона скрыта.</span>
+              <div class="bg-anim-grid" id="bg-anim-presets">
+                <button type="button" class="bg-anim-card" data-anim="none"><span class="bg-anim-swatch swatch-none"></span><span>Нет</span></button>
+                <button type="button" class="bg-anim-card" data-anim="pulse"><span class="bg-anim-swatch swatch-pulse"></span><span>Пульс</span></button>
+                <button type="button" class="bg-anim-card" data-anim="waves"><span class="bg-anim-swatch swatch-waves"></span><span>Волны</span></button>
+                <button type="button" class="bg-anim-card" data-anim="particles"><span class="bg-anim-swatch swatch-particles"></span><span>Частицы</span></button>
+                <button type="button" class="bg-anim-card" data-anim="spectrum"><span class="bg-anim-swatch swatch-spectrum"></span><span>Спектр</span></button>
+                <button type="button" class="bg-anim-card" data-anim="aurora"><span class="bg-anim-swatch swatch-aurora"></span><span>Аура</span></button>
+              </div>
+            </div>
+            <div class="set-row set-row-stack">
+              <div class="set-slider-head"><span class="set-label">Чувствительность к музыке</span><span class="set-value" id="bg-anim-sens-label">100%</span></div>
+              <input type="range" id="slider-bg-anim-sens" min="30" max="250" step="10" value="100" class="set-range" />
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== Мини-плеер ===== -->
+        <div class="settings-section" data-section="player">
+          <header class="settings-section-head">
+            <h2>Мини-плеер</h2>
+            <p>Небольшой плеер поверх окон, когда Sharmanka свёрнута</p>
+          </header>
+
+          <div class="set-group">
+            <label class="set-row">
+              <div class="set-text">
+                <span class="set-label">Показывать мини-плеер</span>
+                <span class="set-desc">Обложка, пауза и переключение треков при свёрнутом окне</span>
+              </div>
+              <span class="ui-switch"><input type="checkbox" id="overlay-enable-toggle" /><span class="ui-switch-track"><span class="ui-switch-thumb"></span></span></span>
+            </label>
+            <div class="set-row set-row-stack">
+              <span class="set-label">Расположение на экране</span>
+              <div class="set-segmented" id="overlay-position-presets">
+                <button type="button" class="set-segment overlay-position-btn" data-position="top-left">Сверху слева</button>
+                <button type="button" class="set-segment overlay-position-btn" data-position="top-right">Сверху справа</button>
+                <button type="button" class="set-segment overlay-position-btn" data-position="bottom-left">Снизу слева</button>
+                <button type="button" class="set-segment overlay-position-btn active" data-position="bottom-right">Снизу справа</button>
+              </div>
+            </div>
+            <div class="set-row set-row-stack" id="overlay-display-row" hidden>
+              <div class="set-text">
+                <span class="set-label">Монитор</span>
+                <span class="set-desc">На каком экране показывать мини-плеер</span>
+              </div>
+              <div class="set-segmented overlay-display-list" id="overlay-display-presets"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== Прокси ===== -->
+        <div class="settings-section" data-section="proxy" id="settings-tab-proxy">
+          <header class="settings-section-head">
+            <h2>Прокси</h2>
+            <p>Вставьте адрес прокси — тип определится сам, изменения применяются сразу</p>
+          </header>
+
+          <div class="set-group proxy-card-min" data-service="soundcloud">
+            <label class="set-row">
+              <div class="set-text">
+                <span class="set-label">SoundCloud</span>
+                <span class="proxy-status" id="proxy-status-soundcloud">Напрямую</span>
+              </div>
+              <span class="ui-switch"><input type="checkbox" id="proxy-soundcloud-enable" /><span class="ui-switch-track"><span class="ui-switch-thumb"></span></span></span>
+            </label>
+            <div class="set-row set-row-stack proxy-body">
+              <div class="proxy-address-row">
+                <input class="set-input set-input-mono" id="proxy-soundcloud-address" type="text" spellcheck="false" autocomplete="off" placeholder="socks5://логин:пароль@1.2.3.4:1080" />
+                <button class="set-btn" id="proxy-soundcloud-test">Проверить</button>
+              </div>
+              <details class="proxy-auth" id="proxy-soundcloud-auth">
+                <summary>Логин и пароль</summary>
+                <div class="set-inline">
+                  <input class="set-input" id="proxy-soundcloud-user" type="text" placeholder="Логин" autocomplete="off" />
+                  <input class="set-input" id="proxy-soundcloud-pass" type="password" placeholder="Пароль" autocomplete="new-password" />
+                </div>
+              </details>
+              <div class="set-warn" id="proxy-warn-soundcloud" style="display: none;"></div>
+            </div>
+          </div>
+
+          <div class="set-group proxy-card-min" data-service="yandex">
+            <label class="set-row">
+              <div class="set-text">
+                <span class="set-label">Яндекс Музыка</span>
+                <span class="proxy-status" id="proxy-status-yandex">Напрямую</span>
+              </div>
+              <span class="ui-switch"><input type="checkbox" id="proxy-yandex-enable" /><span class="ui-switch-track"><span class="ui-switch-thumb"></span></span></span>
+            </label>
+            <div class="set-row set-row-stack proxy-body">
+              <div class="proxy-address-row">
+                <input class="set-input set-input-mono" id="proxy-yandex-address" type="text" spellcheck="false" autocomplete="off" placeholder="socks5://логин:пароль@1.2.3.4:1080" />
+                <button class="set-btn" id="proxy-yandex-test">Проверить</button>
+              </div>
+              <details class="proxy-auth" id="proxy-yandex-auth">
+                <summary>Логин и пароль</summary>
+                <div class="set-inline">
+                  <input class="set-input" id="proxy-yandex-user" type="text" placeholder="Логин" autocomplete="off" />
+                  <input class="set-input" id="proxy-yandex-pass" type="password" placeholder="Пароль" autocomplete="new-password" />
+                </div>
+              </details>
+              <div class="set-warn" id="proxy-warn-yandex" style="display: none;"></div>
+            </div>
+          </div>
+
+          <p class="set-desc proxy-footnote">Поддерживаются SOCKS5, SOCKS4 и HTTP. Подходят форматы <code>1.2.3.4:1080</code>, <code>socks5://логин:пароль@1.2.3.4:1080</code> и <code>IP:Порт:Логин:Пароль</code>. Через прокси идут и страница сервиса, и скачивание треков.</p>
+        </div>
+
+        <!-- ===== Секреты (easter egg) ===== -->
+        <div class="settings-section" data-section="secrets">
+          <header class="settings-section-head">
+            <h2>Секреты <span class="set-badge-secret">пасхалка</span></h2>
+            <p>Вы нашли скрытый раздел. Здесь живут праздничные и экспериментальные режимы.</p>
+          </header>
+
+          <div class="set-group secret-newyear">
+            <div class="set-group-title">❄ Новый год</div>
+            <label class="set-row">
+              <div class="set-text">
+                <span class="set-label">Падающий снег</span>
+                <span class="set-desc">Снежинки падают поверх всего приложения и не мешают нажимать на кнопки</span>
+              </div>
+              <span class="ui-switch"><input type="checkbox" id="secret-snow-toggle" /><span class="ui-switch-track"><span class="ui-switch-thumb"></span></span></span>
+            </label>
+            <div class="set-row set-row-stack">
+              <div class="set-slider-head"><span class="set-label">Сколько снега</span><span class="set-value" id="secret-snow-density-label">Снегопад</span></div>
+              <input type="range" id="secret-snow-density" min="20" max="200" step="10" value="80" class="set-range" />
+            </div>
+          </div>
+
+          <div class="set-actions">
+            <span class="set-desc">Раздел можно спрятать и снова открыть тем же способом</span>
+            <button class="set-btn" id="btn-hide-secrets">Спрятать секретный раздел</button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- Edit Album Modal -->
+  <div class="modal-overlay" id="edit-album-modal">
+    <div class="modal-card" style="width: 520px;">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <div class="modal-icon" style="background: rgba(99, 102, 241, 0.15); color: var(--accent-primary);">
+            <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor">
+              <path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/>
+            </svg>
+          </div>
+          <span class="modal-title">Редактировать альбом</span>
+        </div>
+        <button class="modal-close-btn" id="btn-close-edit-album-modal">
+          <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="currentColor">
+            <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <input type="hidden" id="edit-album-id" value="">
+        
+        <!-- Cover Edit Box -->
+        <div class="album-cover-edit-box">
+          <div class="album-cover-preview-wrap" id="edit-album-cover-wrap">
+            <img id="edit-album-cover-preview" src="" alt="cover preview" style="display: none; width: 100%; height: 100%; object-fit: cover;">
+            <div id="edit-album-cover-placeholder" class="album-cover-placeholder">
+              <svg xmlns="http://www.w3.org/2000/svg" height="36px" viewBox="0 -960 960 960" width="36px" fill="currentColor">
+                <path d="M400-120q-66 0-113-47t-47-113q0-66 47-113t113-47q23 0 42.5 5.5T480-418v-422h240v160H560v400q0 66-47 113t-113 47Z"/>
+              </svg>
+            </div>
+          </div>
+          <div class="album-cover-actions">
+            <span style="font-size: 13px; font-weight: 600; color: var(--text-highlight);">Обложка альбома</span>
+            <span style="font-size: 11px; color: var(--text-muted);">Выберите файл JPG, PNG или WebP</span>
+            <div style="display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap;">
+              <button class="btn-secondary" id="btn-edit-choose-cover" type="button" style="font-size: 12px; padding: 6px 12px;">
+                <svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px" fill="currentColor">
+                  <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/>
+                </svg>
+                <span>Выбрать с ПК</span>
+              </button>
+              <button class="btn-secondary" id="btn-edit-remove-cover" type="button" style="font-size: 12px; padding: 6px 12px; color: #f43f5e;" title="Сбросить обложку">
+                <span>Удалить обложку</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Название альбома</label>
+          <input class="form-input" id="edit-album-title" type="text" placeholder="Введите название альбома">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Исполнитель / Артист</label>
+          <input class="form-input" id="edit-album-artist" type="text" placeholder="Введите имя исполнителя">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Год выпуска (опционально)</label>
+          <input class="form-input" id="edit-album-year" type="number" placeholder="Например, 2024">
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-secondary" id="btn-cancel-edit-album">Отмена</button>
+        <button class="btn-primary" id="btn-save-edit-album">Сохранить изменения</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Track Modal -->
+  <div class="modal-overlay" id="edit-track-modal">
+    <div class="modal-card" style="width: 520px;">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <div class="modal-icon" style="background: rgba(99, 102, 241, 0.15); color: var(--accent-primary);">
+            <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor">
+              <path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/>
+            </svg>
+          </div>
+          <span class="modal-title">Редактировать трек</span>
+        </div>
+        <button class="modal-close-btn" id="btn-close-edit-track-modal">
+          <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="currentColor">
+            <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <input type="hidden" id="edit-track-id" value="">
+        
+        <!-- Cover Edit Box -->
+        <div class="album-cover-edit-box">
+          <div class="album-cover-preview-wrap" id="edit-track-cover-wrap">
+            <img id="edit-track-cover-preview" src="" alt="track cover preview" style="display: none; width: 100%; height: 100%; object-fit: cover;">
+            <div id="edit-track-cover-placeholder" class="album-cover-placeholder">
+              <svg xmlns="http://www.w3.org/2000/svg" height="36px" viewBox="0 -960 960 960" width="36px" fill="currentColor">
+                <path d="M400-120q-66 0-113-47t-47-113q0-66 47-113t113-47q23 0 42.5 5.5T480-418v-422h240v160H560v400q0 66-47 113t-113 47Z"/>
+              </svg>
+            </div>
+          </div>
+          <div class="album-cover-actions">
+            <span style="font-size: 13px; font-weight: 600; color: var(--text-highlight);">Обложка трека</span>
+            <span style="font-size: 11px; color: var(--text-muted);">Выберите файл JPG, PNG или WebP</span>
+            <div style="display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap;">
+              <button class="btn-secondary" id="btn-edit-track-choose-cover" type="button" style="font-size: 12px; padding: 6px 12px;">
+                <svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px" fill="currentColor">
+                  <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/>
+                </svg>
+                <span>Выбрать с ПК</span>
+              </button>
+              <button class="btn-secondary" id="btn-edit-track-remove-cover" type="button" style="font-size: 12px; padding: 6px 12px; color: #f43f5e;" title="Сбросить обложку">
+                <span>Удалить обложку</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Название трека</label>
+          <input class="form-input" id="edit-track-title" type="text" placeholder="Введите название трека">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Исполнитель / Артист</label>
+          <input class="form-input" id="edit-track-artist" type="text" placeholder="Введите имя исполнителя">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Альбом (опционально)</label>
+          <input class="form-input" id="edit-track-album" type="text" placeholder="Введите название альбома">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Год выпуска (опционально)</label>
+          <input class="form-input" id="edit-track-year" type="number" placeholder="Например, 2024">
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-secondary" id="btn-cancel-edit-track">Отмена</button>
+        <button class="btn-primary" id="btn-save-edit-track">Сохранить изменения</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Equalizer Modal -->
+  <!-- Scripts -->
+  <script src="js/local-player.js"></script>
+  <script src="js/library-ui.js"></script>
+  <script src="js/visualizer.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/easter.js"></script>
+  <script src="js/now-playing.js"></script>
+</body>
+</html>

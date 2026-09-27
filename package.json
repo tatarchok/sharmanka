@@ -1,0 +1,82 @@
+{
+  "name": "music-hub",
+  "productName": "Sharmanka",
+  "version": "1.0.0",
+  "description": "Sharmanka — music player for Windows: local library, SoundCloud and Yandex Music in one window",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win"
+  },
+  "build": {
+    "appId": "com.sharmanka.app",
+    "productName": "Sharmanka",
+    "copyright": "Copyright © 2026 tatarchok",
+    "electronDownload": {
+      "mirror": "https://github.com/castlabs/electron-releases/releases/download/"
+    },
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "overlay-preload.js",
+      "icon.png",
+      "icon.ico",
+      "background.jpg",
+      "src/**/*",
+      "node_modules/**/*",
+      "package.json",
+      "LICENSE",
+      "!BetterSoundCloud-main/**/*",
+      "!yandex-music-desktop-master/**/*",
+      "!scratch/**/*"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        },
+        {
+          "target": "portable",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Sharmanka",
+      "installerIcon": "icon.ico",
+      "uninstallerIcon": "icon.ico",
+      "installerHeaderIcon": "icon.ico"
+    }
+  },
+  "keywords": [
+    "music",
+    "soundcloud",
+    "yandex-music",
+    "player",
+    "electron"
+  ],
+  "author": "tatarchok",
+  "license": "MIT",
+  "devDependencies": {
+    "@electron/fuses": "^1.8.0",
+    "electron": "github:castlabs/electron-releases#v41.1.1+wvcus",
+    "electron-builder": "^26.15.3"
+  },
+  "dependencies": {
+    "@cliqz/adblocker-electron": "^1.34.0",
+    "@xhayper/discord-rpc": "^1.3.4",
+    "basic-ftp": "^5.0.5",
+    "cross-fetch": "^4.1.0",
+    "music-metadata": "^7.14.0",
+    "node-id3": "^0.2.9"
+  }
+}

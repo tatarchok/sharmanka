@@ -1,0 +1,899 @@
+/* ==========================================================================
+   Yandex Music Glassmorphism & Transparent App Integration
+   ========================================================================== */
+
+/* 1. Hide Yandex Built-in Player & Yellow Progress Bar completely */
+.bar,
+.bar-below,
+.d-player,
+.d-player-wrap,
+.d-progress,
+.d-progress-overlay,
+.d-progress__bar,
+.d-progress__buffered,
+.d-progress__pointer,
+.d-progress__thumb,
+div[class*="ProgressBar"],
+div[class*="PlayerProgress"],
+div[class*="Timeline_root"],
+div[class*="Timeline_bar"],
+div[class*="Player_timeline"],
+div[class*="PlayerBar_progress"],
+div[class*="PlayerBar_root"],
+div[class*="Player_root"],
+div[class*="PlayerScreen_timeline"],
+div[class*="Timeline_time"] {
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  max-height: 0 !important;
+  visibility: hidden !important;
+  overflow: hidden !important;
+}
+
+/* 2. Transparent Base Canvas & Layout Wrappers */
+html,
+body,
+#root,
+#app,
+.page,
+.page-root,
+.page-index,
+.page-station,
+.centerblock,
+.content,
+.d-grid,
+.d-grid__col,
+.deco-pane,
+.deco-pane-body,
+.d-overhead,
+.main,
+.main__inner,
+.d-layout,
+.d-layout__main,
+.d-layout__content,
+.page-main,
+.page-main__content,
+.application,
+.application__content,
+div[class*="Layout_root"],
+div[class*="Layout_content"],
+div[class*="PageLayout"],
+div[class*="MainLayout"],
+div[class*="Page_root"],
+div[class*="MainPage"],
+div[class*="StationPage"],
+div[class*="ContentContainer"],
+div[class*="MainPage_root"],
+div[class*="StationPage_root"] {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* 3. Yandex Left Sidebar: Translucent Frosted Glass */
+.sidebar,
+.sidebar__inner,
+.d-layout__sidebar,
+.page-main__sidebar,
+div[class*="Sidebar_root"],
+div[class*="Navigation_root"],
+div[class*="NavSidebar"],
+div[class*="NavigationSidebar"] {
+  background: rgba(12, 14, 20, 0.45) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+/* 4. Top Header & Search Bar */
+.d-header,
+div[class*="Header_root"],
+div[class*="TopBar_root"],
+div[class*="HeaderContainer"] {
+  background: rgba(12, 14, 20, 0.55) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+/* 5. Main Dashboard / Feed / Content Sheet Panel - Fully Transparent */
+div[class*="Dashboard_root"],
+div[class*="FeedPage_root"],
+div[class*="ContentSheet_root"],
+div[class*="MainPage_content"],
+div[class*="ContentCard_root"],
+div[class*="FeedPage"],
+div[class*="MainPage"],
+div[class*="TrendsPage"],
+div[class*="ForYouPage"],
+div[class*="FeedContent"],
+div[class*="DashboardPage"],
+div[class*="ContentContainer"],
+div[class*="Feed_root"],
+div[class*="Main_root"],
+main,
+.main,
+.page-main,
+.page-main__content,
+.content {
+  background: transparent !important;
+  background-color: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+}
+
+/* 5.1. "Для вас и Тренды" Header & Tabs Navigation Switcher (Clean Separation) */
+div[class*="FeedHeader"],
+div[class*="FeedToggle"],
+div[class*="PersonalFeedToggle"],
+div[class*="FeedTabs"],
+div[class*="Tabs_root"],
+div[class*="TabsList"],
+div[class*="Tabs_list"],
+div[class*="SegmentedControl"],
+div[class*="SegmentedRadioGroup"],
+div[class*="RadioGroup"],
+div[class*="HeaderToggle"] {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 12px !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  position: relative !important;
+  width: fit-content !important;
+  padding: 0 !important;
+}
+
+div[class*="FeedHeader"]::before,
+div[class*="FeedHeader"]::after,
+div[class*="FeedToggle"]::before,
+div[class*="FeedToggle"]::after,
+div[class*="PersonalFeedToggle"]::before,
+div[class*="PersonalFeedToggle"]::after,
+div[class*="FeedTabs"]::before,
+div[class*="FeedTabs"]::after,
+div[class*="Tabs_root"]::before,
+div[class*="Tabs_root"]::after,
+div[class*="TabsList"]::before,
+div[class*="TabsList"]::after,
+div[class*="Tabs_list"]::before,
+div[class*="Tabs_list"]::after,
+div[class*="SegmentedControl"]::before,
+div[class*="SegmentedControl"]::after,
+div[class*="SegmentedRadioGroup"]::before,
+div[class*="SegmentedRadioGroup"]::after,
+div[class*="RadioGroup"]::before,
+div[class*="RadioGroup"]::after {
+  display: none !important;
+  content: none !important;
+}
+
+/* Individual Tab button items */
+div[class*="Tabs_item"],
+div[class*="Tab_root"],
+div[class*="Tab_item"],
+button[class*="Tab_button"],
+button[class*="Tab_root"],
+button[class*="SegmentedControl_item"],
+div[class*="SegmentedControl_item"],
+a[class*="Tab_root"],
+a[class*="Tabs_item"],
+div[class*="PersonalFeed_item"],
+div[class*="Trends_item"] {
+  display: inline-flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 10px !important;
+  position: relative !important;
+  left: auto !important;
+  top: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  width: auto !important;
+  height: auto !important;
+  padding: 8px 16px !important;
+  margin: 0 !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 9999px !important;
+  color: #ffffff !important;
+  cursor: pointer !important;
+  text-decoration: none !important;
+  overflow: visible !important;
+  flex-shrink: 0 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+  transition: all 0.2s ease !important;
+}
+
+div[class*="Tabs_item"]:hover,
+div[class*="Tab_root"]:hover,
+button[class*="Tab_button"]:hover,
+button[class*="SegmentedControl_item"]:hover {
+  background: rgba(255, 255, 255, 0.14) !important;
+  border-color: rgba(255, 255, 255, 0.22) !important;
+  transform: translateY(-1px);
+}
+
+/* Active tab */
+div[class*="Tabs_item"][class*="active"],
+div[class*="Tabs_item"][class*="selected"],
+div[class*="Tab_root"][class*="active"],
+div[class*="Tab_root"][class*="selected"],
+button[class*="Tab_button"][class*="active"],
+button[class*="Tab_button"][class*="selected"],
+button[class*="SegmentedControl_item"][class*="active"],
+button[class*="SegmentedControl_item"][class*="selected"],
+div[class*="SegmentedControl_item"][class*="selected"],
+div[class*="SegmentedControl_item"][class*="active"] {
+  background: rgba(255, 255, 255, 0.18) !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+  box-shadow: 0 4px 16px rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Prevent sliding indicator overlay and ghost pills from displaying */
+div[class*="SegmentedControl_indicator"],
+div[class*="SegmentedControl_slider"],
+div[class*="Tabs_indicator"],
+div[class*="Tabs_slider"],
+div[class*="Tab_indicator"],
+div[class*="activeIndicator"],
+div[class*="active-indicator"],
+span[class*="indicator"],
+span[class*="slider"] {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+/* 5.2. Section Headers & Titles - Remove Dark Rectangular Backgrounds */
+h1, h2, h3, h4, h5, h6,
+.d-heading,
+.d-title,
+.d-subheading,
+div[class*="Section_header"],
+div[class*="Section_title"],
+div[class*="SectionHeader"],
+div[class*="SectionTitle"],
+div[class*="Block_header"],
+div[class*="Block_title"],
+div[class*="BlockHeader"],
+div[class*="BlockTitle"],
+div[class*="FeedSection"],
+div[class*="FeedBlock"],
+div[class*="FeedRow"],
+div[class*="FeedSection_header"],
+div[class*="FeedBlock_header"],
+div[class*="Heading_root"],
+div[class*="Heading"],
+div[class*="Title_root"],
+div[class*="TitleBlock"],
+div[class*="Title_container"],
+div[class*="Title_wrapper"],
+div[class*="StickyHeader"],
+div[class*="stickyHeader"],
+div[class*="sticky_"],
+div[class*="Overhead"],
+.d-overhead,
+header,
+.header {
+  background: transparent !important;
+  background-color: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+}
+
+div[class*="Section_header"]::before,
+div[class*="Section_header"]::after,
+div[class*="SectionHeader"]::before,
+div[class*="SectionHeader"]::after,
+div[class*="Block_header"]::before,
+div[class*="Block_header"]::after,
+div[class*="BlockHeader"]::before,
+div[class*="BlockHeader"]::after,
+div[class*="StickyHeader"]::before,
+div[class*="StickyHeader"]::after,
+div[class*="Title_root"]::before,
+div[class*="Title_root"]::after,
+div[class*="TitleBlock"]::before,
+div[class*="TitleBlock"]::after,
+div[class*="Heading"]::before,
+div[class*="Heading"]::after,
+h1::before, h1::after,
+h2::before, h2::after,
+h3::before, h3::after,
+h4::before, h4::after {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Inner tab layout: Avatars on left, vertical text stack on right */
+div[class*="Tab_root"] div[class*="Avatar"],
+div[class*="Tab_root"] div[class*="Cover"],
+div[class*="Tab_root"] div[class*="cover"],
+div[class*="Tab_root"] div[class*="image"],
+div[class*="Tabs_item"] div[class*="Avatar"],
+div[class*="Tabs_item"] div[class*="Cover"],
+div[class*="SegmentedControl_item"] div[class*="Avatar"],
+div[class*="SegmentedControl_item"] div[class*="Cover"],
+button[class*="Tab_button"] div[class*="Avatar"] {
+  display: flex !important;
+  align-items: center !important;
+  position: static !important;
+  flex-shrink: 0 !important;
+  margin: 0 !important;
+}
+
+/* Avatars circular styling */
+div[class*="Tab_root"] img,
+div[class*="Tabs_item"] img,
+div[class*="SegmentedControl_item"] img,
+button[class*="Tab_button"] img {
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  position: static !important;
+}
+
+/* Text block inside tabs: vertical stack without overlap */
+div[class*="Tab_root"] div[class*="text"],
+div[class*="Tab_root"] div[class*="Text"],
+div[class*="Tab_root"] div[class*="info"],
+div[class*="Tab_root"] div[class*="Info"],
+div[class*="Tabs_item"] div[class*="text"],
+div[class*="Tabs_item"] div[class*="Text"],
+div[class*="Tabs_item"] div[class*="info"],
+div[class*="Tabs_item"] div[class*="Info"],
+button[class*="Tab_button"] div[class*="text"],
+button[class*="Tab_button"] div[class*="Text"],
+button[class*="Tab_button"] div[class*="info"],
+button[class*="Tab_button"] div[class*="Info"],
+div[class*="SegmentedControl_item"] div[class*="text"],
+div[class*="SegmentedControl_item"] div[class*="Text"] {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  justify-content: center !important;
+  position: static !important;
+  line-height: 1.25 !important;
+  text-align: left !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Title */
+div[class*="Tab_root"] span[class*="title"],
+div[class*="Tab_root"] span[class*="Title"],
+div[class*="Tabs_item"] span[class*="title"],
+div[class*="Tabs_item"] span[class*="Title"],
+button[class*="Tab_button"] span[class*="title"],
+button[class*="Tab_button"] span[class*="Title"],
+div[class*="SegmentedControl_item"] span[class*="title"],
+div[class*="SegmentedControl_item"] span[class*="Title"] {
+  display: block !important;
+  position: static !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: #ffffff !important;
+  white-space: nowrap !important;
+  line-height: 1.2 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Subtitle / Artist list */
+div[class*="Tab_root"] span[class*="subtitle"],
+div[class*="Tab_root"] span[class*="Subtitle"],
+div[class*="Tab_root"] span[class*="caption"],
+div[class*="Tabs_item"] span[class*="subtitle"],
+div[class*="Tabs_item"] span[class*="Subtitle"],
+div[class*="Tabs_item"] span[class*="caption"],
+button[class*="Tab_button"] span[class*="subtitle"],
+button[class*="Tab_button"] span[class*="Subtitle"],
+button[class*="Tab_button"] span[class*="caption"],
+div[class*="SegmentedControl_item"] span[class*="subtitle"],
+div[class*="SegmentedControl_item"] span[class*="Subtitle"] {
+  display: block !important;
+  position: static !important;
+  font-size: 11px !important;
+  color: rgba(255, 255, 255, 0.6) !important;
+  white-space: nowrap !important;
+  line-height: 1.2 !important;
+  margin-top: 2px !important;
+  padding: 0 !important;
+}
+
+/* 6. Quick Nav Cards ("Мне нравится", "История", AI-сеты) */
+.d-quick-nav__item,
+.d-quick-nav__cell,
+div[class*="FavoritesCard"],
+div[class*="HistoryCard"],
+div[class*="QuickCollection"],
+div[class*="QuickCard"],
+div[class*="QuickItem"],
+div[class*="AiSet"],
+div[class*="PresetCard"],
+div[class*="VibeSet"],
+div[class*="GenerativeCard"] {
+  background: rgba(255, 255, 255, 0.07) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.09) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25) !important;
+  transition: all 0.2s ease !important;
+}
+
+.d-quick-nav__item:hover,
+div[class*="FavoritesCard"]:hover,
+div[class*="HistoryCard"]:hover,
+div[class*="QuickCollection"]:hover,
+div[class*="QuickCard"]:hover,
+div[class*="PresetCard"]:hover {
+  background: rgba(255, 255, 255, 0.12) !important;
+  border-color: rgba(255, 255, 255, 0.18) !important;
+}
+
+/* 7. Sub-filter Chips ("топ", "по жанру", "под настроение") */
+.d-chip,
+.d-filter-item,
+button[class*="Chip_button"],
+button[class*="Pill_button"] {
+  background: rgba(255, 255, 255, 0.08) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 20px !important;
+  color: #ffffff !important;
+  transition: all 0.2s ease !important;
+}
+
+.d-chip:hover,
+button[class*="Chip_button"]:hover,
+button[class*="Pill_button"]:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+  border-color: rgba(255, 255, 255, 0.22) !important;
+}
+
+.d-chip_selected,
+button[class*="Chip_selected"] {
+  background: rgba(255, 255, 255, 0.2) !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+  color: #ffffff !important;
+}
+
+/* 8. Track List Hover */
+.d-track:hover,
+.d-album:hover,
+.d-playlist:hover,
+div[class*="TrackItem"]:hover,
+div[class*="Track_root"]:hover {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border-radius: 12px !important;
+}
+
+/* 9. My Wave (Моя Волна) Floating Player Card & Controls - Fully Transparent */
+.rotor__player,
+.station-player,
+div[class*="VibePlayer"],
+div[class*="WavePlayer"],
+div[class*="FullscreenPlayer"],
+div[class*="StationPage"] div[class*="Player_root"],
+div[class*="VibePage"] div[class*="Player_root"],
+div[class*="StationPage"] div[class*="PlayerScreen"],
+div[class*="VibePage"] div[class*="PlayerScreen"] {
+  background: transparent !important;
+  background-color: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: none !important;
+  border-color: transparent !important;
+  outline: none !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+}
+
+.rotor__player::before,
+.rotor__player::after,
+.station-player::before,
+.station-player::after,
+div[class*="VibePlayer"]::before,
+div[class*="VibePlayer"]::after,
+div[class*="WavePlayer"]::before,
+div[class*="WavePlayer"]::after,
+div[class*="FullscreenPlayer"]::before,
+div[class*="FullscreenPlayer"]::after,
+div[class*="StationPage"] div[class*="Player_root"]::before,
+div[class*="StationPage"] div[class*="Player_root"]::after,
+div[class*="VibePage"] div[class*="Player_root"]::before,
+div[class*="VibePage"] div[class*="Player_root"]::after {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* 9.1. Remove grey outline, border and grey fill from all buttons on My Wave (Моя волна) / Vibe / Station */
+.rotor__player button,
+.station-player button,
+.rotor__controls button,
+div[class*="Vibe"] button,
+div[class*="Wave"] button,
+div[class*="Station"] button,
+div[class*="PlayerScreen"] button,
+div[class*="FullscreenPlayer"] button,
+div[class*="VibeControls"] button,
+div[class*="StationControls"] button,
+div[class*="WaveControls"] button,
+div[class*="PlayerControls"] button,
+div[class*="PlayControls"] button,
+div[class*="ControlsGroup"] button,
+div[class*="ButtonsGroup"] button,
+div[class*="Controls_buttons"] button,
+div[class*="ControlsLayout"] button,
+div[class*="StreamPlayer"] button,
+div[class*="StreamControls"] button,
+button[data-test-id*="CONTROL"],
+button[data-test-id*="PLAY"],
+button[data-test-id*="PAUSE"],
+button[data-test-id*="FORWARD"],
+button[data-test-id*="BACKWARD"],
+button[data-test-id*="NEXT"],
+button[data-test-id*="PREV"],
+button[data-test-id*="LIKE"],
+button[data-test-id*="DISLIKE"],
+button[data-test-id*="vibe"],
+button[data-test-id*="wave"],
+button[data-test-id*="station"],
+button[class*="PlayButton"],
+button[class*="playButton"],
+button[class*="PauseButton"],
+button[class*="pauseButton"],
+button[class*="ControlButton"],
+button[class*="controlButton"],
+button[class*="CircleButton"],
+button[class*="circleButton"],
+button[class*="RoundButton"],
+button[class*="roundButton"],
+button[class*="IconButton"],
+button[class*="iconButton"],
+button[class*="ActionItem"],
+button[class*="actionItem"],
+button[class*="Button_view_secondary"],
+button[class*="Button_view_normal"],
+button[class*="Button_view_action"],
+button[class*="Button_view_flat"],
+button[class*="Button-root"],
+button[class*="Button-view"] {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  border-color: transparent !important;
+  outline: none !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+}
+
+/* Also reset pseudo elements ::before and ::after which Yandex UI / Gravity UI / LEGO use for grey circle fills & borders */
+.rotor__player button::before,
+.rotor__player button::after,
+.station-player button::before,
+.station-player button::after,
+.rotor__controls button::before,
+.rotor__controls button::after,
+div[class*="Vibe"] button::before,
+div[class*="Vibe"] button::after,
+div[class*="Wave"] button::before,
+div[class*="Wave"] button::after,
+div[class*="Station"] button::before,
+div[class*="Station"] button::after,
+div[class*="PlayerScreen"] button::before,
+div[class*="PlayerScreen"] button::after,
+div[class*="FullscreenPlayer"] button::before,
+div[class*="FullscreenPlayer"] button::after,
+div[class*="VibeControls"] button::before,
+div[class*="VibeControls"] button::after,
+div[class*="StationControls"] button::before,
+div[class*="StationControls"] button::after,
+div[class*="WaveControls"] button::before,
+div[class*="WaveControls"] button::after,
+div[class*="PlayerControls"] button::before,
+div[class*="PlayerControls"] button::after,
+div[class*="PlayControls"] button::before,
+div[class*="PlayControls"] button::after,
+div[class*="ControlsGroup"] button::before,
+div[class*="ControlsGroup"] button::after,
+div[class*="ButtonsGroup"] button::before,
+div[class*="ButtonsGroup"] button::after,
+div[class*="Controls_buttons"] button::before,
+div[class*="Controls_buttons"] button::after,
+div[class*="ControlsLayout"] button::before,
+div[class*="ControlsLayout"] button::after,
+div[class*="StreamPlayer"] button::before,
+div[class*="StreamPlayer"] button::after,
+div[class*="StreamControls"] button::before,
+div[class*="StreamControls"] button::after,
+button[data-test-id*="CONTROL"]::before,
+button[data-test-id*="CONTROL"]::after,
+button[data-test-id*="PLAY"]::before,
+button[data-test-id*="PLAY"]::after,
+button[data-test-id*="PAUSE"]::before,
+button[data-test-id*="PAUSE"]::after,
+button[data-test-id*="FORWARD"]::before,
+button[data-test-id*="FORWARD"]::after,
+button[data-test-id*="BACKWARD"]::before,
+button[data-test-id*="BACKWARD"]::after,
+button[data-test-id*="NEXT"]::before,
+button[data-test-id*="NEXT"]::after,
+button[data-test-id*="PREV"]::before,
+button[data-test-id*="PREV"]::after,
+button[class*="PlayButton"]::before,
+button[class*="PlayButton"]::after,
+button[class*="playButton"]::before,
+button[class*="playButton"]::after,
+button[class*="PauseButton"]::before,
+button[class*="PauseButton"]::after,
+button[class*="pauseButton"]::before,
+button[class*="pauseButton"]::after,
+button[class*="ControlButton"]::before,
+button[class*="ControlButton"]::after,
+button[class*="controlButton"]::before,
+button[class*="controlButton"]::after,
+button[class*="CircleButton"]::before,
+button[class*="CircleButton"]::after,
+button[class*="circleButton"]::before,
+button[class*="circleButton"]::after,
+button[class*="RoundButton"]::before,
+button[class*="RoundButton"]::after,
+button[class*="roundButton"]::before,
+button[class*="roundButton"]::after,
+button[class*="IconButton"]::before,
+button[class*="IconButton"]::after,
+button[class*="iconButton"]::before,
+button[class*="iconButton"]::after,
+button[class*="Button_view_secondary"]::before,
+button[class*="Button_view_secondary"]::after,
+button[class*="Button_view_normal"]::before,
+button[class*="Button_view_normal"]::after,
+button[class*="Button_view_action"]::before,
+button[class*="Button_view_action"]::after,
+button[class*="Button_view_flat"]::before,
+button[class*="Button_view_flat"]::after,
+button[class*="Button-root"]::before,
+button[class*="Button-root"]::after,
+button[class*="Button-view"]::before,
+button[class*="Button-view"]::after {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  border-color: transparent !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* 9.2. Subtle hover and active states for My Wave buttons */
+.rotor__player button:hover,
+.station-player button:hover,
+div[class*="Vibe"] button:hover,
+div[class*="Wave"] button:hover,
+div[class*="Station"] button:hover,
+div[class*="PlayerScreen"] button:hover,
+div[class*="FullscreenPlayer"] button:hover,
+div[class*="VibeControls"] button:hover,
+div[class*="StationControls"] button:hover,
+div[class*="WaveControls"] button:hover,
+div[class*="PlayerControls"] button:hover,
+div[class*="PlayControls"] button:hover,
+button[data-test-id*="CONTROL"]:hover,
+button[data-test-id*="PLAY"]:hover,
+button[data-test-id*="PAUSE"]:hover,
+button[data-test-id*="FORWARD"]:hover,
+button[data-test-id*="BACKWARD"]:hover,
+button[data-test-id*="NEXT"]:hover,
+button[data-test-id*="PREV"]:hover,
+button[class*="PlayButton"]:hover,
+button[class*="playButton"]:hover,
+button[class*="PauseButton"]:hover,
+button[class*="pauseButton"]:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+  transform: scale(1.06);
+  border-radius: 50% !important;
+  transition: transform 0.15s ease, background 0.15s ease !important;
+}
+
+/* 9.3. Clean white SVG icons for buttons */
+.rotor__player button svg,
+.station-player button svg,
+div[class*="Vibe"] button svg,
+div[class*="Wave"] button svg,
+div[class*="Station"] button svg,
+div[class*="PlayerScreen"] button svg,
+div[class*="FullscreenPlayer"] button svg,
+div[class*="VibeControls"] button svg,
+div[class*="StationControls"] button svg,
+div[class*="WaveControls"] button svg,
+div[class*="PlayerControls"] button svg,
+div[class*="PlayControls"] button svg,
+button[data-test-id*="CONTROL"] svg,
+button[data-test-id*="PLAY"] svg,
+button[data-test-id*="PAUSE"] svg,
+button[data-test-id*="FORWARD"] svg,
+button[data-test-id*="BACKWARD"] svg,
+button[data-test-id*="NEXT"] svg,
+button[data-test-id*="PREV"] svg,
+button[class*="PlayButton"] svg,
+button[class*="playButton"] svg,
+button[class*="PauseButton"] svg,
+button[class*="pauseButton"] svg {
+  fill: currentColor !important;
+  color: #ffffff !important;
+  opacity: 0.9;
+  transition: opacity 0.15s ease, transform 0.15s ease !important;
+}
+
+.rotor__player button:hover svg,
+.station-player button:hover svg,
+div[class*="Vibe"] button:hover svg,
+div[class*="Wave"] button:hover svg,
+div[class*="Station"] button:hover svg,
+div[class*="PlayerScreen"] button:hover svg,
+div[class*="FullscreenPlayer"] button:hover svg,
+div[class*="VibeControls"] button:hover svg,
+div[class*="StationControls"] button:hover svg,
+div[class*="WaveControls"] button:hover svg,
+div[class*="PlayerControls"] button:hover svg,
+div[class*="PlayControls"] button:hover svg,
+button[data-test-id*="CONTROL"]:hover svg,
+button[data-test-id*="PLAY"]:hover svg,
+button[data-test-id*="PAUSE"]:hover svg,
+button[data-test-id*="FORWARD"]:hover svg,
+button[data-test-id*="BACKWARD"]:hover svg,
+button[data-test-id*="NEXT"]:hover svg,
+button[data-test-id*="PREV"]:hover svg,
+button[class*="PlayButton"]:hover svg,
+button[class*="playButton"]:hover svg,
+button[class*="PauseButton"]:hover svg,
+button[class*="pauseButton"]:hover svg {
+  opacity: 1 !important;
+}
+
+/* 9.4. Remove background, border and capsule wrapper from Player Controls & Button Groups */
+.rotor__controls,
+.station-controls,
+div[class*="ControlsGroup"],
+div[class*="ButtonsGroup"],
+div[class*="Controls_buttons"],
+div[class*="Controls_controls"],
+div[class*="Controls_main"],
+div[class*="VibeControls"],
+div[class*="StationControls"],
+div[class*="WaveControls"],
+div[class*="VibeControls_buttons"],
+div[class*="StationControls_buttons"],
+div[class*="WaveControls_buttons"],
+div[class*="PlayControls_root"],
+div[class*="PlayControls_buttons"],
+div[class*="ControlsLayout"],
+div[class*="ControlsLayout_buttons"],
+div[class*="ControlsLayout_center"],
+div[class*="Controls_container"],
+div[class*="ControlsGroup_root"],
+div[class*="ButtonsGroup_root"],
+div[class*="PlayerControls"],
+div[class*="PlayerScreen_controls"],
+div[class*="PlayerScreen_buttons"],
+div[class*="VibePage_controls"],
+div[class*="StationPage_controls"],
+div:has(> button[data-test-id*="PLAY"]),
+div:has(> button[data-test-id*="PAUSE"]),
+div:has(> button[data-test-id*="FORWARD"]),
+div:has(> button[data-test-id*="BACKWARD"]),
+div:has(> button[data-test-id*="CONTROL"]),
+div:has(> button[class*="PlayButton"]),
+div:has(> button[class*="playButton"]),
+div:has(> div > button[data-test-id*="PLAY"]),
+div:has(> div > button[data-test-id*="PAUSE"]),
+div:has(> div > button[data-test-id*="CONTROL"]),
+div:has(> div > button[class*="PlayButton"]),
+div:has(> div > button[class*="playButton"]) {
+  background: transparent !important;
+  background-color: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: none !important;
+  border-color: transparent !important;
+  outline: none !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+}
+
+.rotor__controls::before,
+.rotor__controls::after,
+div[class*="ControlsGroup"]::before,
+div[class*="ControlsGroup"]::after,
+div[class*="ButtonsGroup"]::before,
+div[class*="ButtonsGroup"]::after,
+div[class*="Controls_buttons"]::before,
+div[class*="Controls_buttons"]::after,
+div[class*="VibeControls"]::before,
+div[class*="VibeControls"]::after,
+div[class*="PlayControls_root"]::before,
+div[class*="PlayControls_root"]::after,
+div[class*="ControlsLayout_buttons"]::before,
+div[class*="ControlsLayout_buttons"]::after,
+div[class*="Controls_container"]::before,
+div[class*="Controls_container"]::after,
+div:has(> button[data-test-id*="PLAY"])::before,
+div:has(> button[data-test-id*="PLAY"])::after,
+div:has(> button[data-test-id*="PAUSE"])::before,
+div:has(> button[data-test-id*="PAUSE"])::after,
+div:has(> button[class*="PlayButton"])::before,
+div:has(> button[class*="PlayButton"])::after,
+div:has(> button[class*="playButton"])::before,
+div:has(> button[class*="playButton"])::after,
+div:has(> div > button[data-test-id*="PLAY"])::before,
+div:has(> div > button[data-test-id*="PLAY"])::after,
+div:has(> div > button[class*="PlayButton"])::before,
+div:has(> div > button[class*="PlayButton"])::after {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* 10. Popups & Dialogs */
+div[class*="Popup_root"],
+div[class*="Dropdown_root"],
+div[class*="Modal_root"],
+div[class*="Dialog_root"] {
+  background: rgba(18, 20, 28, 0.9) !important;
+  backdrop-filter: blur(24px) !important;
+  -webkit-backdrop-filter: blur(24px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6) !important;
+}
+
+/* 11. Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 204, 0, 0.5);
+}
+
+/* 12. Hide Promo Banners */
+.pay-promo-banner,
+.popup_banner,
+.d-overhead__banner,
+div[class*="PromoBanner"],
+div[class*="PaymentBanner"] {
+  display: none !important;
+}

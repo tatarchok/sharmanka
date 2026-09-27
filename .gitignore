@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+
+# Build output (publish installers via GitHub Releases instead)
+dist/
+site/downloads/
+
+# Local reference copies of other projects
+BetterSoundCloud-main/
+yandex-music-desktop-master/
+
+# Scratch / tooling
+scratch/
+.claude/
+*.log
+npm-debug.log*
+
+# OS / editor junk
+Thumbs.db
+Desktop.ini
+.DS_Store
+.vscode/
+.idea/
+
+# Website is published separately
+site/
