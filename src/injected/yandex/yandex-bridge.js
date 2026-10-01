@@ -723,7 +723,43 @@
     }
   }
 
+  // ---- Like of the current track (heart in the app's player bar) ----
+  // The bottom bar and the "Моя волна" bar both render a like button; take the visible one
+  function findLikeButton() {
+    const byId = document.querySelector('[class*="PlayerBar"] [data-test-id="LIKE_BUTTON"], [data-test-id="PLAYERBAR_DESKTOP_LIKE_BUTTON"]');
+    if (byId) return byId;
+    const candidates = [...document.querySelectorAll('[class*="PlayerBar"] button[aria-label]')].filter(b => {
+      const label = b.getAttribute('aria-label') || '';
+      return /нравится|like/i.test(label) && !/не нравится|dislike|сбросить|волн/i.test(label);
+    });
+    return candidates.find(b => b.offsetParent !== null) || candidates[0] || null;
+  }
+
+  function getLikeState() {
+    const btn = findLikeButton();
+    if (!btn) return null;
+    const label = btn.getAttribute('aria-label') || '';
+    return btn.getAttribute('aria-pressed') === 'true' || /убрать|удалить|unlike/i.test(label);
+  }
+
+  let lastLikeState;
+  function checkLike() {
+    const liked = getLikeState();
+    if (liked !== lastLikeState) {
+      lastLikeState = liked;
+      emit('like', { liked });
+    }
+  }
+
+  function toggleLike() {
+    const btn = findLikeButton();
+    if (!btn) return Promise.resolve(null);
+    btn.click();
+    return new Promise(resolve => setTimeout(() => { checkLike(); resolve(getLikeState()); }, 450));
+  }
+
   setInterval(checkState, 600);
+  setInterval(checkLike, 700);
 
   // Commands
   // ---- Play queue ------------------------------------------------------------
@@ -1246,7 +1282,9 @@
 
     getQueue: getQueue,
     playQueueItem: playQueueItem,
-    setVisualizer: setVisualizer
+    setVisualizer: setVisualizer,
+    getLike: getLikeState,
+    toggleLike: toggleLike
   };
 
   // Re-apply volume & repeat continuously

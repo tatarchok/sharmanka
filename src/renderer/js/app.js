@@ -963,7 +963,7 @@ class AppController {
         <span class="overlay-display-name">Где окно приложения</span>
       </button>`,
       ...displays.map(d => `
-        <button type="button" class="set-segment overlay-display-btn" data-display="${esc(d.id)}" title="${esc(d.label || `Монитор ${d.index}`)}">
+        <button type="button" class="set-segment overlay-display-btn" data-display="${esc(d.id)}" data-selected="${d.selected ? 1 : 0}" title="${esc(d.label || `Монитор ${d.index}`)}">
           <span class="overlay-display-name">Монитор ${d.index}${d.primary ? ' · основной' : ''}</span>
           <span class="overlay-display-meta">${d.width}×${d.height}</span>
         </button>`)
@@ -983,6 +983,7 @@ class AppController {
     const wanted = overlay.display == null ? 'primary' : String(overlay.display);
     // 'primary' or an unplugged monitor → highlight the current primary one
     const active = btns.find(b => b.dataset.display === wanted)
+      || btns.find(b => b.dataset.selected === '1')
       || btns.find(b => b.querySelector('.overlay-display-name')?.textContent.includes('основной'));
     btns.forEach(b => b.classList.toggle('active', b === active));
   }

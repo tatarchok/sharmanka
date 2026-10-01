@@ -8,7 +8,7 @@ class LibraryUI {
     this.albums = [];
     this.playlists = [];
     this.currentSubnav = 'tracks'; // 'tracks' | 'albums' | 'playlists' | 'album-details' | 'playlist-details'
-    this.currentFilter = 'all'; // 'all' | 'local' | 'liked'
+    this.currentFilter = 'all'; // 'all' | 'soundcloud' | 'local' | 'noalbum' | 'liked'
     this.searchQuery = '';
     this.albumSearchQuery = '';
     this.albumSortMode = 'default';
@@ -675,6 +675,8 @@ class LibraryUI {
         if (this.currentFilter === 'local' && track.source !== 'local') return false;
         if (this.currentFilter === 'soundcloud' && track.source !== 'soundcloud') return false;
         if (this.currentFilter === 'liked' && !track.isLiked) return false;
+        // files lying right in a library root folder (incl. SoundCloud downloads), not inside an album folder
+        if (this.currentFilter === 'noalbum' && track.subfolderAlbum) return false;
 
         if (this.searchQuery) {
           const title = (track.title || '').toLowerCase();

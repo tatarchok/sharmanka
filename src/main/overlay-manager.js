@@ -17,8 +17,31 @@ function getOverlaySettings() {
     enabled: !!overlay.enabled,
     position: overlay.position || 'bottom-right',
     // 'primary', 'app' (the monitor the main window is on) or a display id
-    display: overlay.display == null ? 'primary' : String(overlay.display)
+    display: overlay.display == null ? 'primary' : String(overlay.display),
+    // label + position of the chosen monitor: Windows hands out new display ids after a reboot
+    displayHint: overlay.displayHint || null
   };
+}
+
+function displayHint(d) {
+  return { label: d.label || '', x: d.bounds.x, y: d.bounds.y, width: d.bounds.width, height: d.bounds.height };
+}
+
+function saveOverlayPatch(patch) {
+  if (!configStoreRef) return;
+  configStoreRef.save({ settings: { overlay: patch } });
+}
+
+// Same monitor model in the same place wins, then the same model anywhere, then whatever sits in that place
+function findByHint(hint) {
+  if (!hint) return null;
+  const all = screen.getAllDisplays();
+  const samePlace = (d) => d.bounds.x === hint.x && d.bounds.y === hint.y;
+  const sameLabel = (d) => hint.label && d.label === hint.label;
+  return all.find(d => sameLabel(d) && samePlace(d))
+    || (all.filter(sameLabel).length === 1 ? all.find(sameLabel) : null)
+    || all.find(d => samePlace(d) && d.bounds.width === hint.width && d.bounds.height === hint.height)
+    || null;
 }
 
 function resolveDisplay(choice) {
@@ -27,8 +50,19 @@ function resolveDisplay(choice) {
     return screen.getDisplayMatching(mainWindowRef.getNormalBounds());
   }
   if (choice !== 'primary' && choice !== 'app') {
+    const { displayHint: hint } = getOverlaySettings();
     const found = screen.getAllDisplays().find(d => String(d.id) === choice);
-    if (found) return found;
+    if (found) {
+      const fresh = displayHint(found);
+      if (JSON.stringify(fresh) !== JSON.stringify(hint)) saveOverlayPatch({ displayHint: fresh });
+      return found;
+    }
+    // the id changed (reboot, driver update) — find the same monitor and remember its new id
+    const match = findByHint(hint);
+    if (match) {
+      saveOverlayPatch({ display: String(match.id), displayHint: displayHint(match) });
+      return match;
+    }
   }
   // unplugged monitor or 'primary'
   return screen.getPrimaryDisplay();
@@ -36,6 +70,8 @@ function resolveDisplay(choice) {
 
 function listDisplays() {
   const primaryId = screen.getPrimaryDisplay().id;
+  const { display: choice } = getOverlaySettings();
+  const selectedId = (choice !== 'primary' && choice !== 'app') ? resolveDisplay(choice).id : null;
   return screen.getAllDisplays()
     .slice()
     .sort((a, b) => (a.bounds.x - b.bounds.x) || (a.bounds.y - b.bounds.y))
@@ -45,7 +81,9 @@ function listDisplays() {
       label: d.label || '',
       width: Math.round(d.size.width * d.scaleFactor),
       height: Math.round(d.size.height * d.scaleFactor),
-      primary: d.id === primaryId
+      primary: d.id === primaryId,
+      // the monitor the saved choice resolves to (its id may differ after a reboot)
+      selected: d.id === selectedId
     }));
 }
 
@@ -137,7 +175,14 @@ function repositionIfVisible() {
   }
 }
 
+// Resolving an explicit monitor choice stores its label/position (or heals a changed id)
+function refreshDisplayChoice() {
+  const { display } = getOverlaySettings();
+  if (display !== 'primary' && display !== 'app') resolveDisplay(display);
+}
+
 function onSettingsChanged() {
+  refreshDisplayChoice();
   const { enabled } = getOverlaySettings();
   if (!enabled) {
     hideOverlay();
@@ -173,6 +218,7 @@ function updateTrackData(data) {
 function init(mainWindow, configStore) {
   mainWindowRef = mainWindow;
   configStoreRef = configStore;
+  refreshDisplayChoice();
 
   mainWindow.on('minimize', () => showOverlay());
   mainWindow.on('restore', () => hideOverlay());
@@ -190,6 +236,7 @@ function init(mainWindow, configStore) {
   ipcMain.on('overlay:preview', () => previewOverlay());
 
   const onDisplaysChanged = () => {
+    refreshDisplayChoice();
     repositionIfVisible();
     if (mainWindowRef && !mainWindowRef.isDestroyed()) mainWindowRef.webContents.send('overlay:displays-changed');
   };

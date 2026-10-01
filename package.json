@@ -1,7 +1,7 @@
 {
   "name": "music-hub",
   "productName": "Sharmanka",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Sharmanka — music player for Windows: local library, SoundCloud and Yandex Music in one window",
   "main": "main.js",
   "scripts": {
@@ -37,11 +37,15 @@
       "target": [
         {
           "target": "nsis",
-          "arch": ["x64"]
+          "arch": [
+            "x64"
+          ]
         },
         {
           "target": "portable",
-          "arch": ["x64"]
+          "arch": [
+            "x64"
+          ]
         }
       ],
       "icon": "icon.ico"

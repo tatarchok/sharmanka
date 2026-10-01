@@ -996,7 +996,36 @@
     }
   }
 
+  // ---- Like of the current track (heart in the app's player bar) ----
+  function findLikeButton() {
+    return document.querySelector('.playbackSoundBadge__like');
+  }
+
+  function getLikeState() {
+    const btn = findLikeButton();
+    if (!btn) return null;
+    return btn.classList.contains('sc-button-selected') || /^unlike/i.test(btn.title || btn.getAttribute('aria-label') || '');
+  }
+
+  let lastLikeState;
+  function checkLike() {
+    const liked = getLikeState();
+    if (liked !== lastLikeState) {
+      lastLikeState = liked;
+      emit('like', { liked });
+    }
+  }
+
+  function toggleLike() {
+    const btn = findLikeButton();
+    if (!btn) return Promise.resolve(null);
+    btn.click();
+    // SoundCloud flips the class right away; give it a moment and report what it shows
+    return new Promise(resolve => setTimeout(() => { checkLike(); resolve(getLikeState()); }, 350));
+  }
+
   setInterval(checkState, 400);
+  setInterval(checkLike, 700);
 
   // ---- "Next up" queue ------------------------------------------------------
   // SoundCloud renders its queue panel only while it is open, as a virtual list (56px rows,
@@ -1466,6 +1495,8 @@
     playQueueItem: playQueueItem,
     removeQueueItem: removeQueueItem,
     setVisualizer: setVisualizer,
+    getLike: getLikeState,
+    toggleLike: toggleLike,
 
     getCurrentTrack: function() {
       const titleEl = document.querySelector('.playbackSoundBadge__titleLink');

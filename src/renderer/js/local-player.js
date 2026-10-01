@@ -311,6 +311,10 @@ class UniversalPlayerManager {
       if (this.equalizer) {
         this.sendWebviewCommand(`wv-${service}`, 'setEqualizer', this.equalizer);
       }
+    } else if (event === 'like') {
+      // null = the site shows no like button (nothing loaded, not signed in)
+      this.serviceMetadata[service].liked = data ? data.liked : null;
+      if (this.activeSource === service) this.updateServiceLikeButton(service);
     } else if (event === 'state') {
       const isPlaying = Boolean(data.isPlaying);
       this.serviceMetadata[service].isPlaying = isPlaying;
@@ -1244,10 +1248,12 @@ class UniversalPlayerManager {
     if (likeBtn) {
       likeBtn.style.display = 'flex';
       likeBtn.classList.toggle('liked', !!track.isLiked);
+      likeBtn.title = track.isLiked ? 'Убрать из избранного' : 'В избранное';
       likeBtn.onclick = () => {
         window.api.library.toggleLike(track.id).then(isLiked => {
           track.isLiked = isLiked;
           likeBtn.classList.toggle('liked', isLiked);
+          likeBtn.title = isLiked ? 'Убрать из избранного' : 'В избранное';
           if (window.libraryUI) window.libraryUI.refreshLikes();
         });
       };
@@ -1293,15 +1299,42 @@ class UniversalPlayerManager {
       }
     }
 
-    if (likeBtn) {
-      likeBtn.style.display = 'none';
-    }
+    this.updateServiceLikeButton(service);
 
     if (downloadBtn) {
       downloadBtn.style.display = (service === 'soundcloud') ? 'flex' : 'none';
     }
 
     this.pushOverlayState();
+  }
+
+  // Heart in the player bar for SoundCloud / Yandex: mirrors and presses the site's own like button
+  updateServiceLikeButton(service) {
+    const likeBtn = document.getElementById('player-like-btn');
+    if (!likeBtn) return;
+    const liked = this.serviceMetadata[service]?.liked;
+    if (liked === null || liked === undefined) {
+      likeBtn.style.display = 'none';
+      return;
+    }
+    likeBtn.style.display = 'flex';
+    likeBtn.classList.toggle('liked', !!liked);
+    likeBtn.title = liked ? 'Убрать из «Мне нравится»' : 'Добавить в «Мне нравится»';
+    likeBtn.onclick = async () => {
+      if (likeBtn.dataset.busy) return;
+      likeBtn.dataset.busy = '1';
+      // optimistic flip; the bridge reports the real state right after
+      likeBtn.classList.toggle('liked', !liked);
+      try {
+        const result = await this.callWebview(service, 'toggleLike');
+        if (result !== null && result !== undefined) {
+          this.serviceMetadata[service].liked = result;
+        }
+      } finally {
+        delete likeBtn.dataset.busy;
+        if (this.activeSource === service) this.updateServiceLikeButton(service);
+      }
+    };
   }
 
   updateSourceBadge(service) {
